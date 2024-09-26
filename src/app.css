@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.TbAktif {
+   @apply bg-emerald-500 text-white hover:bg-emerald-600
+}
+
+.TbPasif {
+    @apply bg-gray-300 text-gray-400
+ }
