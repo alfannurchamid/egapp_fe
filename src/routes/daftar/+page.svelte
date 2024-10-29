@@ -53,6 +53,11 @@
             <p id="alert_nik" class="text-xs text-red-400 hidden">NIK harus diisi</p>
         </div>
         <div class="w-full flex flex-col my-1 ">
+            <label for="username" class=" text-xs" >Username</label>
+            <input  id="username"   placeholder="Contoh: 3307011203000000" class=" placeholder:text-gray-300  px-3 placeholder:text-sm  my-1 h-9 rounded-lg border border-collapse border-gray-300 focus:border-gray-700 focus:border "  type="text">
+           <p id="alert_username" class="text-xs text-red-400 hidden">username harus diisi</p>
+       </div>
+        <div class="w-full flex flex-col my-1 ">
             <label for="sandi" class=" text-xs" >Kata Sandi</label>
             <input on:keyup={()=>{CekSandi()}} bind:value={Sandi}   placeholder="Contoh: Sandi123!" id="inpSandi" class=" inpSandi placeholder:text-gray-300  px-3 placeholder:text-sm  my-1 h-9 rounded-lg border border-collapse border-gray-300 focus:border-gray-700"  type="password">
 
@@ -61,7 +66,7 @@
             <p id="alert_sandi" class="text-xs text-red-400 hidden">NIK harus diisi</p>
             
     
-            <button type="submit"  on:click={()=>{TampilkanSandi()}} class="text-xs self-end mr-3">tampilkan sandi</button>
+            <button  on:click={()=>{TampilkanSandi()}} class="text-xs self-end mr-3">tampilkan sandi</button>
         </div>
 
 

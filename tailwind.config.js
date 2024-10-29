@@ -8,6 +8,9 @@ export default {
         'rubik': ['"Rubik"', 'sans-serif'],
         'karla': ['"Karla"', 'sans-serif'],
         'roboto': ['"Roboto Condensed"', 'sans-serif']
+      },fontSize: {
+        xxs: ['10px', '16px'],
+        xxxs: ['7px', '10px']
       }
     },
   },
