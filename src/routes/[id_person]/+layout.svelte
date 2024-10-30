@@ -2,6 +2,7 @@
     import "../../app.css";
     import Bell2 from "$lib/svg/bell2.svelte"
   import { goto } from "$app/navigation";
+  import { user } from "$lib/stores/userLogin";
 
     import { currentOpenNotifPage, currentOpenProfile, open_notif, open_profile } from "$lib/stores/general";
   import NontifPage from "$lib/compo/nontif_page.svelte";
@@ -10,8 +11,8 @@
 <div class="fixed z-20 top-0 flex w-full   p-3 px-6 text-gray-800 bg-white drop-shadow">
     <div class="w-full flex justify-between items-center flex-row">
         <div class=" flex flex-col">
-            <p class=" text-xs">hai, eka gunadi. </p>
-            <h5 class=" mt-1">Dashboard Direksi</h5>
+            <p class=" ">hai, {$user.full_name} </p>
+            <h5 class=" mt-1"> </h5>
         </div>
         <div class="flex flex-col justify-end w-40 ">
             <div class=" flex justify-between items-center ">
@@ -32,7 +33,7 @@
             </button>
             <button on:click={()=>{currentOpenProfile(!$open_profile)}} class="h-8 w-8 bg-slate-400 rounded-full"></button>
         </div>
-        <ul class=" mt-1 self-end text-xs">manager argobisnis </ul>
+        <ul class=" mt-1 self-end text-xs">{$user.jabatan} {$user.nama_divisi}</ul>
     </div> 
 </div>
 </div>

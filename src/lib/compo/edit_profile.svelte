@@ -2,13 +2,15 @@
     import NotifRow from "$lib/compo/notif_row.svelte";
     import { fly } from "svelte/transition";
     import { quintInOut } from "svelte/easing";
+    import { user } from "$lib/stores/userLogin";
   import { currentOpenProfile, open_profile } from "$lib/stores/general";
     let maxChar = 25
-    let nama = ''
+    let nama = $user.username
     let input_focus= false
-    let nama_lengkap ='Alfan Nurchamid'
-    let no_wa = ''
+    let nama_lengkap = $user.full_name
+    let no_wa = $user.noWa
     let input_wa_focus = false
+
 </script>
 
 <div transition:fly={{ delay: 100, duration: 700, x: 900, y: 0, opacity: 1, easing: quintInOut }} class=" w-screen fixed top-0 z-50 bg-gray-100 p-5 min-h-screen flex  flex-col py-5  " >
@@ -53,7 +55,7 @@
         </div>
         <div class=" w-full border-b h-10 flex items-center">
       
-            <label for=""  class="w-full  h-min text-xl font-light">{nama_lengkap} </label>
+            <label for=""  class="w-full  h-min text-gray-500 text-xl font-light">{nama_lengkap} </label>
         </div>
     </div>
 
@@ -70,12 +72,12 @@
 
         <div class=" w-full border-b  items-center">
             <h3 class=" text-gray-400 mt-3">Jabatan</h3>
-            <p class="text-gray-600">Manager </p>
+            <p class="text-gray-500">{$user.jabatan} </p>
         </div>
 
         <div class=" w-full border-b  items-center">
             <h3 class=" text-gray-400 mt-3">Divisi</h3>
-            <p class="text-gray-600">Manager </p>
+            <p class="text-gray-500">{$user.nama_divisi} </p>
         </div>
     </div>
 

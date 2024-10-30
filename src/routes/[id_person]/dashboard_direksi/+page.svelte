@@ -1,9 +1,17 @@
 <script>
   import { goto } from "$app/navigation";
+  import { loadinge } from "$lib/stores/load";
+  import { onMount } from "svelte";
 
   const portal = ()=>{
     goto('dashboard_manager')
   }
+  onMount(async () => {
+    loadinge(false);
+
+		// console.log(accessKey);
+	});
+
 
 </script>
 <!-- <div  class=" relative w-full h-20 max-w-screen-md overflow-x-scroll mt-20 flex items-center ">
