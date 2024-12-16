@@ -8,14 +8,49 @@
    import { blur, fly } from "svelte/transition";
    import { slide } from "svelte/transition";
    import { circInOut } from "svelte/easing";
+  import { GetCookie } from "$lib/stores/cokies";
+  import { loadinge } from "$lib/stores/load";
+
 
    import { currentOpenCatatan } from "$lib/stores/openPopTugas";
+  import { page } from "$app/stores";
     export let catatans = [{}]
 
    let tambah_open = false
    let rotate = 0
+   let accessKey = ''
+   let id_tugas = $page.params.id_tugas
 
    let catatan_baru = ''
+   const post_catatan = async ()=>{
+      accessKey = GetCookie('accesskey')
+      loadinge(true)
+
+      const getuser = await fetch(
+			"be.ekagroup.co/api/api/v1/catatan_tugas/add_catatan_tugas",
+		
+			{
+				method: "POST",
+				headers: {
+               "Content-Type": "application/json",
+               Authorization: "Bearer "+accessKey ,
+				},
+				credentials: "include",
+				body: JSON.stringify({
+					catatan : catatan_baru,
+					id_tugas
+				}),
+                credentials: "include",
+			}
+		);
+		if (getuser.ok) {
+         loadinge(false)
+         await alert("catatan baru ditambahkan ")
+         catatans.unshift({catatan:catatan_baru})
+         catatans = catatans
+         catatan_baru = ''
+      }
+   }
 </script>
 
 
@@ -26,7 +61,7 @@
 
       <button class=" flex ">  
          <button on:click={()=>{tambah_open = !tambah_open , rotate = ((rotate < 40) ? 45 : 0);}} class=" h-10 w-10 bg-black rounded-t-2xl  bg-opacity-40 flex justify-center items-end">
-            <div class="rotate-[{rotate}deg] transition-all duration-500 ">
+            <div class="rotate-[45deg] transition-all duration-500 ">
                <Plus ukuran='w-10 h-10' warna='stroke-white'></Plus>
             </div>
          </button>
@@ -49,7 +84,7 @@
       <div transition:slide={{ delay: 250, duration: 300, easing: circInOut, axis: 'y' }}  
                   id="dropdownstaff" class=" duration-700  w-full flex-col mb-5 text-gray-500  flex overflow-hidden ">
          <textarea class=" rounded-lg w-full min-h-20 h-auto p-2 mb-2 " bind:value={catatan_baru}  />
-         <button disabled={!catatan_baru} class=" BtnSubmit  w-full p-2">tambah</button>
+         <button disabled={!catatan_baru} on:click={()=>{post_catatan()}} class=" BtnSubmit  w-full p-2">tambah</button>
          <!-- <div class=' hidden w-full '>
             <button class=" BtnNegative mr-1">batal</button>
             <button disabled={!catatan_baru} class=" BtnSubmit ml-1 w-full p-2">tambah</button>

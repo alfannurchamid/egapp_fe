@@ -2,7 +2,7 @@ import { writable } from "svelte/store";
 
 export let open_pop_tambah_rk = writable(false);
 export let open_pop_edit_rk = writable(false);
-export let open_element_id = writable("");
+export let open_element_id = writable(0);
 export let open_catatan = writable(false);
 export let open_report = writable(false);
 
@@ -18,8 +18,10 @@ export const currentOpenEditRk = (/** @type {boolean} */ open) => {
   });
 };
 
-export const currentOpenElementEditId = (/** @type {string} */ open) => {
+export const currentOpenElementEditId = (/** @type {Number} */ open) => {
   open_element_id.update(() => {
+    console.log("cekkk", open);
+
     return open;
   });
 };

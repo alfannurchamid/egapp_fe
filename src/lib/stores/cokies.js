@@ -42,20 +42,17 @@ let message = "";
 
 export const generateAccesToken = async (/** @type {any} */ act) => {
   const refresh_token = act;
-  const response = await fetch(
-    "http://localhost:8000/api/api/v1/auth/refresh_token",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        refresh_token,
-      }),
-    }
-  );
+  const response = await fetch("be.ekagroup.co/api/api/v1/auth/refresh_token", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      accept: "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      refresh_token,
+    }),
+  });
 
   const content = await response.json();
   const actNew = content.data.access_token;
@@ -68,19 +65,16 @@ export const generateAccesToken = async (/** @type {any} */ act) => {
 export const logout = async () => {
   const refresh_token = GetCookie("refreshkey");
   if (refresh_token) {
-    const postLogout = await fetch(
-      "http://localhost:8000/api/api/v1/auth/logout",
-      {
-        method: "POST",
-        headers: {
-          accept: "*/*",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          refresh_token,
-        }),
-      }
-    );
+    const postLogout = await fetch("be.ekagroup.co/api/api/v1/auth/logout", {
+      method: "POST",
+      headers: {
+        accept: "*/*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        refresh_token,
+      }),
+    });
   }
 
   document.cookie.split(";").forEach(function (c) {

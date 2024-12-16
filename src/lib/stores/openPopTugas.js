@@ -1,7 +1,7 @@
 import { writable } from "svelte/store";
 
 export let open_pop_tg = writable(false);
-export let open_pop_edit_tg = writable(false);
+export let open_pop_edit_tg = writable(0);
 export let open_pop_element_id = writable("");
 export let pelaksana = writable([]);
 
@@ -15,7 +15,7 @@ export const currentOpenTambahTugas = (/** @type {boolean} */ open) => {
     return open;
   });
 };
-export const currentOpenEditTugas = (/** @type {boolean} */ open) => {
+export const currentOpenEditTugas = (/** @type {number} */ open) => {
   open_pop_edit_tg.update(() => {
     return open;
   });

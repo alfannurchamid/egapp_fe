@@ -44,7 +44,6 @@
 </div>
 
 
-
 {#if $open_notif}
     <NontifPage></NontifPage>
 {/if}

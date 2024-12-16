@@ -1,12 +1,50 @@
 <script>
+// @ts-nocheck
+
+  import { page } from "$app/stores";
+
 
   import CatatanTg from "$lib/compo/catatan_tg.svelte";
     import ReportTugas from "$lib/compo/report_tugas.svelte";
+  import { GetCookie } from "$lib/stores/cokies";
     import { currentOpenCatatan, currentOpenReport } from "$lib/stores/openPopTugas";
     import { open_catatan, open_report } from "$lib/stores/openPopTugas";
+  import { onMount } from "svelte";
+  import { Falidate } from "$lib/dependedncies/falidate_session_login";
 
-  const catatans = [{'id':'1c','catatan':'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eum rem aperiam labore iure ipsa debitis, veniam natus temporibus vero quasi nihil deserunt laboriosam aspernatur,'},{'id':'1c','catatan':'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eum rem aperiam labore iure ipsa debitis, veniam natus temporibus vero quasi nihil deserunt laboriosam aspernatur,'}]
+
+  let catatans = []
+    
     let KPI = 'file konten plan'
+    let accessKey = ''
+    
+    const get_catatan = async ()=>{
+        accessKey = GetCookie('accesskey')
+        const response = await fetch('be.ekagroup.co/api/api/v1/catatan_tugas/get_catatan_tugases',
+        {
+            method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer "+accessKey ,
+                },
+                body : JSON.stringify({
+                  id_tugas :  parseInt($page.params.id_tugas)
+                }),
+                credentials: "include",
+        }
+        )
+        if(response.ok){
+            let catatan_ = await response.json()
+            catatans = catatan_.data.data
+        }
+    } 
+
+    onMount(async()=>{
+      await Falidate()
+      await get_catatan()
+       })
+
+
 </script>
 <div class=" mt-20 rencanakerja_card p-1 px-5 my-2 w-full bg-white  flex flex-col rounded-lg ">
     <h6  class=" text-sm mb-3">Tugas</h6>

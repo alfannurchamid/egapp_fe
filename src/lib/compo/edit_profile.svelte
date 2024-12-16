@@ -4,12 +4,15 @@
     import { quintInOut } from "svelte/easing";
     import { user } from "$lib/stores/userLogin";
   import { currentOpenProfile, open_profile } from "$lib/stores/general";
+  import { logout } from "$lib/stores/cokies";
     let maxChar = 25
     let nama = $user.username
     let input_focus= false
     let nama_lengkap = $user.full_name
     let no_wa = $user.noWa
     let input_wa_focus = false
+
+    
 
 </script>
 
@@ -81,5 +84,5 @@
         </div>
     </div>
 
-
+    <button  on:click={()=>{logout()}} class="TbPasif text-gray-500 w-24 mt-10"> keluar</button>
 </div>

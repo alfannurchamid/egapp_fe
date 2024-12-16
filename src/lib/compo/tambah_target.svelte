@@ -1,27 +1,19 @@
 <script>
 // @ts-nocheck
+
     import { fade,fly } from "svelte/transition";
     import { quintOut } from "svelte/easing";
-    
+    import { Falidate } from "$lib/dependedncies/falidate_session_login";
+      let judul= ""
+      let deskripsi = writable("")
+      let kpi= ""
+      let start_date = ""
+      let deadline= ""
+      let id_divisi = parseInt($page.params.id_divisi)
+      
+      let accessKey = ''
+      const post_target =  async()=>{
 
-    let openform = false
-    import { currentOpenTambahRk } from "$lib/stores/openPopRenKer"
-  import { loadinge } from "$lib/stores/load";
-  import { Falidate } from "$lib/dependedncies/falidate_session_login";
-  import { GetCookie } from "$lib/stores/cokies";
-  import { page } from "$app/stores";
-  import { writable } from "svelte/store";
-
-   let judul= ""
-   let deskripsi = writable("")
-   let kpi= ""
-   let start_date = ""
-   let deadline= ""
-   let id_divisi = parseInt($page.params.id_divisi)
-
-  let accessKey
-   let id_target = parseInt($page.params.id_target)
-    const post_rencana_kerja =  async()=>{
          loadinge(true)
          Falidate()
          accessKey =  GetCookie('accesskey')
@@ -29,7 +21,7 @@
          var deskripsi = textatea.value
 
          const response = await fetch(
-			"be.ekagroup.co/api/api/v1/rencana_kerja/add_rencana_kerja",
+			"be.ekagroup.co/api/api/v1/target/add_target",
 		
 			{
                method: "POST",
@@ -44,7 +36,7 @@
                   kpi,
                   start_date ,
                   deadline,
-                  id_target 
+                  id_divisi 
                }),
        }
          );
@@ -53,31 +45,46 @@
            location.reload()
          }else{alert("terjadi kesalahan")}
       }
+
+
+
+    let openform = false
+
+    import { currentOpenUpTambahTarget } from "$lib/stores/openPopTarget";
+  import { writable } from "svelte/store";
+  import { GetCookie } from "$lib/stores/cokies";
+
+  import { page } from "$app/stores";
+  import { loadinge } from "$lib/stores/load";
+  import { text } from "@sveltejs/kit";
 </script>
 
-<div  		transition:fly={{ delay: 250, duration: 700, x: 0, y: 900, opacity: 0.5, easing: quintOut }} id="popaddrk" class=" flex absolute w-screen h-screen flex-col  items-center pt-20 top-0 z-30 backdrop-blur-xl backdrop-brightness-100  bg-gray-200 bg-opacity-5">
+<div transition:fly={{ delay: 250, duration: 700, x: 0, y: 900, opacity: 0.5, easing: quintOut }} id="popaddrk" class=" flex absolute w-screen h-screen flex-col  items-center pt-20 top-0 z-30 backdrop-blur-xl backdrop-brightness-100  bg-gray-200 bg-opacity-5">
 
     <div class="w-80 flex bg-black rounded-3xl p-5 bg-opacity-30 flex-col  ">
-      <h4 class=" text-white  text-center w-full ">Tambah rencana kerja</h4>
-      <form action="" class=" flex flex-col">
+      <h4 class=" text-white  text-center w-full ">Tambah Target</h4>
+      <form on:submit={()=>{post_target()}} class=" flex flex-col">
          <label for="judul" class=" text-sm text-white mb-1">judul</label>
          <input name="judul" type="text" class=" h-8 rounded-lg px-2 mb-4" bind:value={judul} >
   
          <label for="deskripsi" class=" text-sm text-white mb-1">deskripsi</label>
-         <textarea name="deskripsi"  class=" min-h-20 rounded-lg px-2 mb-4" id ="deskripsi" > </textarea>
+         <textarea name="deskripsi"  class=" min-h-20 rounded-lg px-2 mb-4 " id="deskripsi"> </textarea>
   
          <label for="kpi" class=" text-sm text-white mb-1">KPI</label>
          <input name="kpi" type="text" class=" h-8 rounded-lg px-2 mb-4" bind:value={kpi} >
-
-                  
+         
          <label for="start_date" class=" text-sm text-white mb-1">start date</label>
          <input name="start_date" type="date" class=" h-8 rounded-lg px-2 mb-4" bind:value={start_date} >
-  
-         <label for="kpi" class=" text-sm text-white mb-1">deadline</label>
-         <input name="kpi" type="date" class=" h-8 rounded-lg px-2 mb-4"  bind:value={deadline} >
+
+         <label for="deadline" class=" text-sm text-white mb-1">deadline</label>
+         <input name="deadline" type="date" class=" h-8 rounded-lg px-2 mb-4" bind:value={deadline} >
+
+
          <div class=" mt-5 grid grid-cols-2 grid-rows-1 gap-3">
-            <button on:click={()=>{currentOpenTambahRk(false)}}  class=" BtnNegative  ">batal</button>
-            <button type="submit" on:click={()=>{post_rencana_kerja()}} class=" BtnSubmit w-full h-10 ">simpan</button>
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <div on:click={()=>{currentOpenUpTambahTarget(false)}}  class=" BtnNegative  ">batal</div>
+            <button type="submit" class=" BtnSubmit w-full h-10 ">simpan</button>
          </div>
       </form>
     </div>

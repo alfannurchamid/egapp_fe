@@ -7,14 +7,16 @@
 	import { loadinge } from "$lib/stores/load";
     import { goto } from "$app/navigation";
     import { RefreshToken } from "$lib/stores/auth";
-  import { updateUser } from "$lib/stores/userLogin";
-
-
-    
+    import { updateUser ,user} from "$lib/stores/userLogin";
+    import {Portal} from "$lib/dependedncies/portal"
+    import {Falidate} from "$lib/dependedncies/falidate_session_login"
 
     let password = ""
     let username = ""
     let Lengkap = false
+    let accessKey = "";
+	let refreshKey= "";
+    
 
     const CekSandi = ()=>{
         console.log(password)
@@ -43,72 +45,29 @@
             
         }
         }
-    let accessKey = "";
-	let refreshKey= "";
-    const falidate = async () => {
-		accessKey = GetCookie("accesskey");
-		refreshKey = GetCookie("refreshkey");
-		if (refreshKey) {
-            console.log("revresh key ada")
-			if (accessKey) {
-            console.log("asccess key ada")
 
-				const response = await fetch(
-					"http://localhost:8000/api/api/v1/auth/get_profile",
-					{
-						headers: {
-							"Content-Type": "application/json",
-							Authorization: "Bearer " + accessKey,
-						},
-						credentials: "include",
-					}
-				);
-
-				const content = await response.json();
-				// console.log(content);
-				// console.log(content.data);
-
-				updateUser(content.data);
-
-
-				// console.log(content.data);
-				if (content.data.access == 0) {
-
-					alert("menunnggu persetujuan akses dari HRGA , mohon hubungi nomor Hrga unntuk meminta akses")
-					goto("/");
-				} else {
-                    portal(content.data.access,content.data.id_karyawan)
-				}
-			} else {
-            console.log("access key  tdkada")
-
-				await RefreshToken(refreshKey);
-	
-				await falidate();
-                console.log(accessKey)
-			}
-		} else {
-            console.log("revers key ada")
-
-			await logout();
-		}
-	};
 	onMount(async () => {
-		falidate();
+		await Falidate();
+        Portal(
+        $user.access,
+        $user.id_karyawan,
+        $user.divisi
+      );
+
 	});
 
 
     const submited = async () => {
-        console.log(username)
+        // console.log(username)
 
 		if (!username) {
             console.log("!username")
 			return;
 		}
-        console.log("aaass")
+        // console.log("aaass")
 		loadinge(true);
 		const getuser = await fetch(
-			"http://localhost:8000/api/api/v1/auth/login",
+			"be.ekagroup.co/api/api/v1/auth/login",
 		
 			{
 				method: "POST",
@@ -124,7 +83,7 @@
 			}
 		);
 		if (getuser.ok) {
-            console.log("user sukses")
+            // console.log("user sukses")
 			let user1 = await getuser.json();
 			// console.log(user1.data);
 			const accessKey = user1.data.access_token;
@@ -135,7 +94,7 @@
 			SetCookie("refreshkey", refreshKey, 3600000 * 24);
 
 			const response = await fetch(
-				"http://localhost:8000/api/api/v1/auth/get_profile",
+				"be.ekagroup.co/api/api/v1/auth/get_profile",
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -148,7 +107,7 @@
 			const content = await response.json();
             // console.log(content)
             updateUser(content.data)
-            portal(content.data.access,content.data.id_karyawan)
+            Portal(content.data.access,content.data.id_karyawan)
            
 		} else {
             console.log("user error")
@@ -168,37 +127,11 @@
 		}
 	};
 
-    const portal = (access,id_karyawan)=>{
-         // lihat akses sampai sini
-         switch(access){
-                // jika akses = 0
-                case 0 :
-                    logout();
-                // jika akses = 1
-                case 1:
-                    goto("/"+id_karyawan +"/dashboard_divisi");
-                // jika akses = 2
-                case 2:
-                    goto("/"+id_karyawan +"/dashboard_divisi");
-                // jika akses = 3
-                case 3:
-                    goto("/"+id_karyawan +"/dashboard_divisi");
-                    // setelah masuk ke  dashboard, akan ada tombol ke ds hrga
-                // jika akses = 4
-                case 4:
-                    goto("/"+id_karyawan +"/dashboard_direksi");
-                // jika akses = 5
-                case 5:
-                    goto("/"+id_karyawan +"/dashboard_direksi");
-
-                
-			}
-    }
 </script>
 <div class="  flex flex-col items-center justify-center p-5 bg-gray-100">
 
     <img class=" w-28 mt-5 mb-10" src="{logo}" alt="logo">
-    <div class=" p-5 text-gray-700 flex container rounded-lg drop-shadow-lg justify-center flex-col items-center bg-white"> 
+    <div class=" p-5 text-gray-700 max-w-96 flex container rounded-lg drop-shadow-lg justify-center flex-col items-center bg-white"> 
         <h1 class=" text-lg font-semibold mb-3 ">Masuk ke Task Managemet </h1>
        <form class=" w-full" on:submit={()=>(submited())}  >
 

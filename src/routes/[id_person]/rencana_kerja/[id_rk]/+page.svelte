@@ -1,40 +1,138 @@
 
 <script type="text/javascript">
 // @ts-nocheck
-
-    import Person from "$lib/svg/person.svelte";
-    // @ts-ignore
-   
+// @ts-ignore
     import Plus from "$lib/svg/plus.svelte";
-    // @ts-ignore
-    // @ts-ignore
     import { circInOut, quintOut } from "svelte/easing";
-   
+    import { json } from "@sveltejs/kit";
+    import Person from "$lib/svg/person.svelte";
+    import { page } from "$app/stores";
+    import { onMount } from "svelte";
+
     import TambahTugas from "$lib/compo/tambah_tugas.svelte";
-
-  // @ts-ignore
-  import { open_pop_tg, currentOpenTambahTugas, currentPelaksanaRow } from "$lib/stores/openPopTugas"
-  import {open_catatan , currentOpenCatatan,open_report , currentOpenReport} from "$lib/stores/openPopRenKer"
-  // @ts-ignore
-  import Edit from "$lib/svg/edit.svelte";
-  import TugasRow from "$lib/compo/tugas_row.svelte";
-  import { onMount } from "svelte";
-  import CatatanRk from "$lib/compo/catatan_rk.svelte";
-import ReportRenKer from "$lib/compo/report_ren_ker.svelte";
-
+    import { Falidate } from "$lib/dependedncies/falidate_session_login";
+    import { open_pop_tg, currentOpenTambahTugas, currentPelaksanaRow } from "$lib/stores/openPopTugas"
+    import {open_catatan , currentOpenCatatan,open_report , currentOpenReport} from "$lib/stores/openPopRenKer"
+    import Edit from "$lib/svg/edit.svelte";
+    import TugasRow from "$lib/compo/tugas_row.svelte";
+    import CatatanRk from "$lib/compo/catatan_rk.svelte";
+    import ReportRenKer from "$lib/compo/report_ren_ker.svelte";  
+    import { GetCookie } from "$lib/stores/cokies";           
+    import { user } from "$lib/stores/userLogin"; 
 
     // data  dari server
-    // @ts-ignore
-    // @ts-ignore
-    const my_id = '400a'
-    const catatans = [{'id':'1c','catatan':'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eum rem aperiam labore iure ipsa debitis, veniam natus temporibus vero quasi nihil deserunt laboriosam aspernatur,'},{'id':'1c','catatan':'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eum rem aperiam labore iure ipsa debitis, veniam natus temporibus vero quasi nihil deserunt laboriosam aspernatur,'}]
 
-    onMount(()=>{
+    const my_id = '400a'
+    let catatans = []
+    let tugases = []
+    let accessKey = ''
+    let renker = {}
+    let karyawans = []
+
+    const get_tugass = async ()=>{
+        console.log("Cekkkk")
+        accessKey = GetCookie('accesskey')
+        const response = await fetch('be.ekagroup.co/api/api/v1/tugas/get_tugases',
+            {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer "+accessKey ,
+                },
+                body : JSON.stringify({
+                  id_renker :  parseInt($page.params.id_rk),
+                  bebas : 0
+                }),
+                credentials: "include",
+              }
+          )
+            if(response.ok){
+              let tugas = await response.json()
+              tugases = tugas.data
+            }
+            console.log("tugases")
+            console.log(tugases)
+    }  
+
+    const get_renker = async ()=>{
+        accessKey = GetCookie('accesskey')
+        const response = await fetch('be.ekagroup.co/api/api/v1/rencana_kerja/get_rencana_kerja',
+        {
+            method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer "+accessKey ,
+                },
+                body : JSON.stringify({
+                  id_renker :  parseInt($page.params.id_rk)
+                }),
+                credentials: "include",
+        }
+        )
+        if(response.ok){
+            let renker_ = await response.json()
+            renker = renker_.data
+        }
+    }
+
+
+    const get_catatan = async ()=>{
+        accessKey = GetCookie('accesskey')
+        const response = await fetch('be.ekagroup.co/api/api/v1/catatan_renker/get_catatan_renkers',
+        {
+            method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer "+accessKey ,
+                },
+                body : JSON.stringify({
+                  id_renker :  parseInt($page.params.id_rk)
+                }),
+                credentials: "include",
+        }
+        )
+        if(response.ok){
+            let catatan_ = await response.json()
+            catatans = catatan_.data.data
+        }
+    }
+
+    const get_karyawans = async ()=>{    
+      // @ts-ignore
+      if(!renker){
+        alert("rencana kerja tidak yes")
+      }
+      accessKey = GetCookie('accesskey')
+        const response = await fetch('be.ekagroup.co/api/api/v1/karyawan/get_karyawans',
+        {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + accessKey,
+                },
+                    body : JSON.stringify({
+                    divisi : "9" 
+                }),
+                credentials: "include",
+              }
+              )
+            if(response.ok){
+              let karyawans_ = await response.json()
+              karyawans = karyawans_.data.data
+
+              
+            }
+ }
+    onMount(async()=>{
+      await Falidate()
+      await get_tugass()
+      await get_renker()
+      await get_catatan()
+      await get_karyawans()
        // @ts-ignore
        currentPelaksanaRow([{'nama':'alpen','id':'A004','atribute':''},{'nama':'devi','id':'A005','atribute':''},{'nama':'nanang','id':'A003','atribute':''},{'nama':'sibon','id':'A006','atribute':''}]) 
-    })
+      })
 
-    const tugases = [{'id':'sw124','judul':'membuat SOP','deskripsi':'Lorem, ipsum iunt itaque atque cupiditate ab facere iste harum laborum quo animi earum, rerum totam!','kpi':'file sistem sop sesuai rapat 09/23/2024','deadline':new Date(),'pelaksana':[{'nama':'alpen','id':'A004',},{'nama':'devi','id':'A005',}]},{'id':'sw123','judul':'membuat kontenplan oktober','deskripsi':'Lorem, ipsum iunt itaque atque cupiditate ab facere iste harum laborum quo animi earum, rerum totam!','kpi':'file sistem sop sesuai rapat 09/23/2024','deadline':new Date(),'pelaksana':[{'nama':'sibon','id':'A006','atribute':''}]}]
 
     const KPI = "omset 200 jt bulan september 2024"
 
@@ -43,21 +141,27 @@ import ReportRenKer from "$lib/compo/report_ren_ker.svelte";
     <div class=" mt-20 rencanakerja_card p-1 px-5 my-2 w-full bg-white  flex flex-col rounded-lg ">
         <h6  class=" text-sm mb-3">Rencana Kerja </h6>
         <div class=" flex w-full justify-between">
-            <h3>Pelaksanaan SOP produksi konten</h3>
+            <h3 class=" text-lg ">{renker.judul}</h3>
 
             <div class=" p-2 h-3 rounded bg-green-400 text-xxs text-center flex items-center justify-center text-white "> Setujui </div>
         </div>
         <div class=" flex w-full justify-between text-xs mt-2 text-gray-600">
-            <h3>deadline : 12/09/2024</h3>
-            <div class=" "> Persentase capaian pekerjaan 60% </div>
+          {#if renker.deadline && renker.start_date }
+            <h3>mulai : {renker.start_date.substr(0,10)}</h3> 
+            <h3>deadline : {renker.deadline.substr(0,10)}</h3>
+          {/if}
+            <div class=" "> Persentase capaian pekerjaan {renker.progres}% </div>
         </div>
-        <h3 class=" text-xxs">jenis : rutin</h3>
-        <p class=" text-sm  mt-4"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eum rem aperiam labore iure ipsa debitis, veniam natus temporibus vero quasi nihil deserunt laboriosam aspernatur, recusandae officiis, dolore dolorum dicta harum. </p>
+        <h3 class="mt-4 text-xs">deskripsi : </h3>
+        <p class=" text-sm  "> {renker.deskripsi} </p>
+
+        <h3 class="mt-4 text-xs">KPI : </h3>
+        <p class=" text-sm  "> {renker.kpi} </p>
         </div>
 
         <div class=" flex w-full bg-gray-50 p-2  text-xs justify-around ">
             <button on:click={()=>{ currentOpenCatatan(true)}} class=" w-20 bg-yellow-400 p-1 text-center rounded-lg text-white font-semibold uppercase "> catatan </button>
-            <button on:click={()=>{ currentOpenReport(true)}} class=" w-20 bg-blue-400 p-1 text-center rounded-lg text-white font-semibold uppercase "> report </button>
+            <button on:click={()=>{ currentOpenReport(true)}} class=" w-32 bg-blue-400 p-1 text-center rounded-lg text-white font-semibold uppercase "> report & status </button>
         </div>
         <div class=" w-full flex flex-col p-5">
             <label for=" " class=" w-full text-center my-2"> Tugas-Tugas</label>
@@ -78,8 +182,9 @@ import ReportRenKer from "$lib/compo/report_ren_ker.svelte";
         </div>
 
         {#each tugases as tugas}
-        <TugasRow tugas = {tugas}></TugasRow>
+        <TugasRow tugas={tugas} karyawans ={karyawans}></TugasRow>
         {/each}
+      
     </div>
 
 
@@ -87,7 +192,7 @@ import ReportRenKer from "$lib/compo/report_ren_ker.svelte";
 
     <!-- pop up tambah Rencana kerja -->
     {#if $open_pop_tg}
-    <TambahTugas></TambahTugas>
+    <TambahTugas renker={renker} karyawans = {karyawans} ></TambahTugas>
     {/if}
 
     {#if $open_catatan}
@@ -96,5 +201,5 @@ import ReportRenKer from "$lib/compo/report_ren_ker.svelte";
 
 
     {#if $open_report}
-    <ReportRenKer KPI={KPI}></ReportRenKer>
+    <ReportRenKer renker={renker}></ReportRenKer>
     {/if}

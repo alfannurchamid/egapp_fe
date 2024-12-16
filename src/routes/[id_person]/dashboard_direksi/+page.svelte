@@ -1,16 +1,48 @@
 <script>
-  import { goto } from "$app/navigation";
-  import { loadinge } from "$lib/stores/load";
-  import { onMount } from "svelte";
+    // @ts-nocheck
+    import { goto } from "$app/navigation";
+    import { Falidate } from "$lib/dependedncies/falidate_session_login";
+    import { GetCookie } from "$lib/stores/cokies";
+    import { loadinge } from "$lib/stores/load";
+    import { onMount } from "svelte";
+    import { SetCookie } from "$lib/stores/cokies";
+    let divisies = []
 
-  const portal = ()=>{
-    goto('dashboard_manager')
-  }
-  onMount(async () => {
-    loadinge(false);
+    const portalLokal = (divisi)=>{
+        goto('dashboard_divisi/'+divisi.id_divisi+'/')
+    }
+
+    let accessKey = "";
+    console.log(accessKey)
+    let refreshKey= "";
+    
+    const get_divisies = async () => {
+        accessKey = GetCookie("accesskey");
+        // console.log(accessKey)
+        const response = await fetch(
+                    "be.ekagroup.co/api/api/v1/divisi/get_divisies",
+                    {
+                    method: "GET",
+                    headers: {
+                            "Content-Type": "application/json",
+                            Authorization: "Bearer " + accessKey,
+                        },
+                        credentials: "include",
+                    }
+                );
+
+                const content = await response.json();
+                console.log(content)
+                divisies = content.data
+    }
+
+    onMount(async () => { 
+        await Falidate()
+        get_divisies()
+        loadinge(false);
 
 		// console.log(accessKey);
-	});
+    });
 
 
 </script>
@@ -26,18 +58,27 @@
 </div> -->
 
 
-<div class=" w-full flex text-sm mt-20 pt-8 ">
+<div class=" w-full flex  flex-col text-sm mt-20 pt-8 bg-gray-50 ">
 
     
     <!-- inni card jobs divisi report  -->
-    <button  on:click={()=>{portal()}} id="card_div" class="w-full flex p-3 px-5 drop-shadow bg-white  h-40">
+    {#each divisies as divisi }
+        
+ 
+    <button  on:click={()=>{portalLokal(divisi)}} id="card_div" class="w-full flex p-3 my-2 px-5 drop-shadow bg-white  h-40">
         <div id="kanan" class="  w-[40%]" >
             <div class=" flex items-center ">
                 <div class="  h-12 w-12 rounded-full bg-gray-400"></div>
-                <h4 class=" mx-2 ">  Agro Bisnis </h4>
+                <h4 class=" mx-2 ">  {divisi.nama_divisi} </h4>
             </div>
-            <h5 class=" text-xs mt-3">Jumlah karyawan : 10</h5>
-            <h5 class=" text-xs">Jumlah staf : 8</h5>
+            <h5 class=" text-xs">Manager : 
+                {#if divisi.manager}
+                {divisi.manager.full_name}
+                {:else}
+                -
+                {/if}
+            </h5>
+            <h5 class=" text-xs mt-3">Jumlah karyawan : {divisi.jml_karyawan}</h5>
         </div>
         <div class=" text-xxs flex flex-col items-center w-[60%]">
         
@@ -65,6 +106,7 @@
             </div>
         </div>
     </button>
+    {/each}
 
 
 
