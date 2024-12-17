@@ -42,7 +42,7 @@ let message = "";
 
 export const generateAccesToken = async (/** @type {any} */ act) => {
   const refresh_token = act;
-  const response = await fetch("be.ekagroup.co/api/api/v1/auth/refresh_token", {
+  const response = await fetch("https://be.ekagroup.co/api/api/v1/auth/refresh_token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -65,7 +65,7 @@ export const generateAccesToken = async (/** @type {any} */ act) => {
 export const logout = async () => {
   const refresh_token = GetCookie("refreshkey");
   if (refresh_token) {
-    const postLogout = await fetch("be.ekagroup.co/api/api/v1/auth/logout", {
+    const postLogout = await fetch("https://be.ekagroup.co/api/api/v1/auth/logout", {
       method: "POST",
       headers: {
         accept: "*/*",
