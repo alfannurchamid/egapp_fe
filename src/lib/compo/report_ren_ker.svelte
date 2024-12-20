@@ -45,7 +45,7 @@
 
          accessKey =  GetCookie('accesskey')
          const response = await fetch(
-            "be.ekagroup.co/api/api/v1/rencana_kerja/update_rencana_kerja",
+            "https://be.ekagroup.co/api/api/v1/rencana_kerja/update_rencana_kerja",
             {
                     method: "POST",
                     headers: {
@@ -78,7 +78,7 @@
               const request = new XMLHttpRequest();
               request.open(
                 "POST",
-                "be.ekagroup.co/api/api/v1/tugas/upload_file_rencana_kerja"
+                "https://be.ekagroup.co/api/api/v1/tugas/upload_file_rencana_kerja"
               );
               request.send(data);
               request.onreadystatechange = function () {
@@ -98,7 +98,7 @@
             // Falidate()
             accessKey =  GetCookie('accesskey')
               const response = await fetch(
-                "be.ekagroup.co/api/api/v1/divisi/report?file="+renker.file_name+"&type=rencana_kerja",
+                "https://be.ekagroup.co/api/api/v1/divisi/report?file="+renker.file_name+"&type=rencana_kerja",
             {
                     method: "GET",
                     headers: {

@@ -155,7 +155,7 @@
         //  var deskripsi = textatea.value
 
          const response = await fetch(
-			"be.ekagroup.co/api/api/v1/tugas/update_tugas",
+			"https://be.ekagroup.co/api/api/v1/tugas/update_tugas",
 			{
                method: "POST",
                headers: {

@@ -67,7 +67,7 @@
         // console.log("aaass")
 		loadinge(true);
 		const getuser = await fetch(
-			"be.ekagroup.co/api/api/v1/auth/login",
+			"https://be.ekagroup.co/api/api/v1/auth/login",
 		
 			{
 				method: "POST",
@@ -94,7 +94,7 @@
 			SetCookie("refreshkey", refreshKey, 3600000 * 24);
 
 			const response = await fetch(
-				"be.ekagroup.co/api/api/v1/auth/get_profile",
+				"https://be.ekagroup.co/api/api/v1/auth/get_profile",
 				{
 					headers: {
 						"Content-Type": "application/json",

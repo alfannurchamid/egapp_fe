@@ -42,7 +42,7 @@ let message = "";
 
 export const generateAccesToken = async (/** @type {any} */ act) => {
   const refresh_token = act;
-  const response = await fetch("be.ekagroup.co/api/api/v1/auth/refresh_token", {
+  const response = await fetch("https://be.ekagroup.co/api/api/v1/auth/refresh_token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -63,24 +63,37 @@ export const generateAccesToken = async (/** @type {any} */ act) => {
 };
 
 export const logout = async () => {
-  const refresh_token = GetCookie("refreshkey");
-  if (refresh_token) {
-    const postLogout = await fetch("be.ekagroup.co/api/api/v1/auth/logout", {
-      method: "POST",
-      headers: {
-        accept: "*/*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        refresh_token,
-      }),
-    });
-  }
+  try {
+    const refreshToken = GetCookie("refreshkey");
 
-  document.cookie.split(";").forEach(function (c) {
-    document.cookie = c
-      .replace(/^ +/, "")
-      .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-  });
-  goto("/login");
+    if (refreshToken) {
+      const response = await fetch("https://be.ekagroup.co/api/api/v1/auth/logout", {
+        method: "POST",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ refresh_token: refreshToken }),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to logout", await response.text());
+      }
+    }
+
+    // Clear all cookies
+    document.cookie.split(";").forEach((cookie) => {
+      document.cookie = cookie
+        .replace(/^ +/, "")
+        .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
+    });
+
+    // Redirect to login page
+    goto("/login");
+  } catch (error) {
+    console.error("Error during logout:", error);
+  }
 };
+
+
+

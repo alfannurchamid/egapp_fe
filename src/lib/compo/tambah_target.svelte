@@ -21,7 +21,7 @@
          var deskripsi = textatea.value
 
          const response = await fetch(
-			"be.ekagroup.co/api/api/v1/target/add_target",
+			"https://be.ekagroup.co/api/api/v1/target/add_target",
 		
 			{
                method: "POST",

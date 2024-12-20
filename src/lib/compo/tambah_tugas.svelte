@@ -95,7 +95,7 @@
         alert("rencana kerja tidak yes")
       }
       accessKey = GetCookie('accesskey')
-        const response = await fetch('be.ekagroup.co/api/api/v1/karyawan/get_karyawans',
+        const response = await fetch('https://be.ekagroup.co/api/api/v1/karyawan/get_karyawans',
         {
               method: "POST",
               headers: {
@@ -123,7 +123,7 @@
          var deskripsi = textatea.value
 
          const response = await fetch(
-			"be.ekagroup.co/api/api/v1/tugas/add_tugas",
+			"https://be.ekagroup.co/api/api/v1/tugas/add_tugas",
 			{
                method: "POST",
                headers: {

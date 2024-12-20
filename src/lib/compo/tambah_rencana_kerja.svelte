@@ -29,7 +29,7 @@
          var deskripsi = textatea.value
 
          const response = await fetch(
-			"be.ekagroup.co/api/api/v1/rencana_kerja/add_rencana_kerja",
+			"https://be.ekagroup.co/api/api/v1/rencana_kerja/add_rencana_kerja",
 		
 			{
                method: "POST",
