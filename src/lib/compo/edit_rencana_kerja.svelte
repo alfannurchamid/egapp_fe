@@ -35,7 +35,7 @@
         //  var deskripsi = textatea.value
 
          const response = await fetch(
-			"be.ekagroup.co/api/api/v1/rencana_kerja/update_rencana_kerja",
+			"http://localhost:8000/api/api/v1/rencana_kerja/update_rencana_kerja",
 			{
                method: "POST",
                headers: {

@@ -21,7 +21,7 @@
        export let renker
 
         //   2 =belumm dilaksanakan , 3 = dilaksanakan , 4 = uploaded (pengajuan selesai)  ,5 tolak revisi  6 = tolak selesai , 7 terima selesai,
-       let status_report = renker.status
+       let status_report = 3
        let access_user = 2
 
        let report_files;
@@ -45,7 +45,7 @@
 
          accessKey =  GetCookie('accesskey')
          const response = await fetch(
-            "be.ekagroup.co/api/api/v1/rencana_kerja/update_rencana_kerja",
+            "http://localhost:8000/api/api/v1/rencana_kerja/update_rencana_kerja",
             {
                     method: "POST",
                     headers: {
@@ -78,14 +78,14 @@
               const request = new XMLHttpRequest();
               request.open(
                 "POST",
-                "be.ekagroup.co/api/api/v1/tugas/upload_file_rencana_kerja"
+                "http://localhost:8000/api/api/v1/rencana_kerja/upload_file_rencana_kerja"
               );
               request.send(data);
               request.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                   const obj = JSON.parse(this.responseText);
                   values_to_update['status']=4
-                  update_capaian('file_name',obj.data.file_name)
+                  update_capaian('file_name',obj.file_name)
                 }
               };
             } else {
@@ -95,10 +95,10 @@
 
         const download_file_report = async()=>{
             loadinge(true)
-            // Falidate()
+            Falidate()
             accessKey =  GetCookie('accesskey')
               const response = await fetch(
-                "be.ekagroup.co/api/api/v1/divisi/report?file="+renker.file_name+"&type=rencana_kerja",
+                "http://localhost:8000/api/api/v1/divisi/report?file="+renker.file_name+"&type=rencana_kerja",
             {
                     method: "GET",
                     headers: {
@@ -139,8 +139,9 @@
                 <div class="flex flex-col items-center w-full justify-center">
                 <h4 class=" w-full text-center pb-1 border-b border-white text-white font-semibold mb-3">{#if status_report == 0}upload report{:else}lihat report{/if}</h4>
                 <p class=" pb-2 mb-4 text-white   border-b border-white ">KPI : {renker.kpi}</p>
-
-                {#if access_user  == 2}
+                {#if status_report < 2}
+                <h3>menunggu Acc dari Direksi</h3>
+                {:else if access_user  == 2}
                   <!-- jika access manager -->
                   {#if status_report == 2}
                      <button on:click={()=>{update_capaian('status',3)}} class=" BtnSubmit w-32 mt-3 h-10 ">laksanakan</button>

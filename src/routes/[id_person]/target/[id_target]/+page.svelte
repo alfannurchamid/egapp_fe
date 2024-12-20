@@ -31,7 +31,7 @@
  const get_renkers = async ()=>{
   // @ts-ignore
   accessKey =  GetCookie('accesskey')
-    const response = await fetch('be.ekagroup.co/api/api/v1/rencana_kerja/get_rencana_kerjas',
+    const response = await fetch('http://localhost:8000/api/api/v1/rencana_kerja/get_rencana_kerjas',
     {
           method: "POST",
 					headers: {
@@ -56,7 +56,7 @@
  const get_target = async ()=>{
   // @ts-ignore
   accessKey =  GetCookie('accesskey')
-    const response = await fetch('be.ekagroup.co/api/api/v1/target/get_target',
+    const response = await fetch('http://localhost:8000/api/api/v1/target/get_target',
     {
           method: "POST",
 					headers: {
@@ -118,7 +118,7 @@
   
   
 
-<div class=" w-full flex justify-center"> <a href="/#" class=" text-xxs text-blue-500 mt-2">lihat lebih banyak v</a></div>
+<!-- <div class=" w-full flex justify-center"> <a href="/#" class=" text-xxs text-blue-500 mt-2">lihat lebih banyak v</a></div> -->
 </div>
 
 <button on:click={()=>{ currentOpenTambahRk(true)}} class=" fixed w-10 h-10 bg-red-400 rounded-full bottom-2 right-2"><Plus ukuran='w-10 h-10' warna='stroke-white' ></Plus></button>

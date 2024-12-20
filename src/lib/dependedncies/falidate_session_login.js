@@ -1,24 +1,26 @@
+// @ts-nocheck
 import { goto } from "$app/navigation";
 import { RefreshToken } from "$lib/stores/auth";
 import { GetCookie, logout } from "$lib/stores/cokies";
-import { user, updateUser } from "$lib/stores/userLogin";
-import { Portal } from "./portal";
+import { user, updateUser, resetUser } from "$lib/stores/userLogin";
 
 export const Falidate = async () => {
+  // console.log("masuk falidate");
   let accessKey = GetCookie("accesskey");
   let refreshKey = GetCookie("refreshkey");
+
   if (refreshKey) {
-    console.log("revresh key ada");
+    // console.log("revresh key ada");
     if (!accessKey) {
-      //   console.log("access key  tdkada");
+      // console.log("access key  tdkada");
       await RefreshToken(refreshKey);
-      await Falidate();
+      // await Falidate();
     } else {
       let accessKey = GetCookie("accesskey");
       //   console.log("asccess key ada");
 
       const response = await fetch(
-        "be.ekagroup.co/api/api/v1/auth/get_profile",
+        "http://localhost:8000/api/api/v1/auth/get_profile",
         {
           headers: {
             "Content-Type": "application/json",
@@ -39,11 +41,17 @@ export const Falidate = async () => {
         alert(
           "menunnggu persetujuan akses dari HRGA , mohon hubungi nomor Hrga unntuk meminta akses"
         );
-        goto("/login");
+        await logout();
+        return false;
+      } else {
+        return true;
       }
     }
   } else {
-    // console.log("revers key ada");
+    console.log("revers key gaaa ada di validate");
     await logout();
+    // resetUser();
+    // goto("/login");
+    return false;
   }
 };

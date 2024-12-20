@@ -28,7 +28,7 @@
       loadinge(true)
 
       const getuser = await fetch(
-			"be.ekagroup.co/api/api/v1/catatan_renker/add_catatan_renker",
+			"http://localhost:8000/api/api/v1/catatan_renker/add_catatan_renker",
 		
 			{
 				method: "POST",

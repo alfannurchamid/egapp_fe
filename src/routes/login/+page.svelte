@@ -1,6 +1,6 @@
 <script>
 // @ts-nocheck
-    import { SetCookie, GetCookie, logout } from "$lib/stores/cokies";
+    import { SetCookie, GetCookie, logout , logout_ } from "$lib/stores/cokies";
     import {onMount} from "svelte/internal"
     import logo from "$lib/img/LOGO_EG.svg"
     import { Input } from "postcss";
@@ -10,6 +10,7 @@
     import { updateUser ,user} from "$lib/stores/userLogin";
     import {Portal} from "$lib/dependedncies/portal"
     import {Falidate} from "$lib/dependedncies/falidate_session_login"
+
 
     let password = ""
     let username = ""
@@ -30,7 +31,6 @@
             target?.add("TbPasif")
             Lengkap = false
         }
-
     }
 
     const TampilkanSandi = ()=> { 
@@ -47,19 +47,22 @@
         }
 
 	onMount(async () => {
-		await Falidate();
-        Portal(
-        $user.access,
-        $user.id_karyawan,
-        $user.divisi
-      );
+        // console.log("masuk login");
 
+		if(await Falidate()){
+            console.log("----user"+$user)
+            await Portal(
+            $user.access,
+            $user.id_karyawan,
+            $user.divisi
+          );
+        };
+    
 	});
 
 
     const submited = async () => {
         // console.log(username)
-
 		if (!username) {
             console.log("!username")
 			return;
@@ -67,8 +70,7 @@
         // console.log("aaass")
 		loadinge(true);
 		const getuser = await fetch(
-			"be.ekagroup.co/api/api/v1/auth/login",
-		
+			"http://localhost:8000/api/api/v1/auth/login",
 			{
 				method: "POST",
 				headers: {
@@ -82,7 +84,9 @@
 				}),
 			}
 		);
+
 		if (getuser.ok) {
+            // logout_ = true
             // console.log("user sukses")
 			let user1 = await getuser.json();
 			// console.log(user1.data);
@@ -90,11 +94,11 @@
 			const expired_at = user1.data.expired_at;
 			const refreshKey = user1.data.refresh_token;
 
-			SetCookie("accesskey", accessKey, expired_at);
-			SetCookie("refreshkey", refreshKey, 3600000 * 24);
+			await SetCookie("accesskey", accessKey, expired_at);
+			await SetCookie("refreshkey", refreshKey, 3600000 * 24);
 
 			const response = await fetch(
-				"be.ekagroup.co/api/api/v1/auth/get_profile",
+				"http://localhost:8000/api/api/v1/auth/get_profile",
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -105,9 +109,17 @@
 			);
 
 			const content = await response.json();
-            // console.log(content)
-            updateUser(content.data)
-            Portal(content.data.access,content.data.id_karyawan)
+            // console.log(content.data.access)
+            // alert("set")
+            if (content.data.access == 0) {alert( "menunnggu persetujuan akses dari HRGA , mohon hubungi nomor Hrga unntuk meminta akses");
+                     await logout();
+            }else{
+            await updateUser(content.data)
+            }
+            // console.log("ulai portal")
+            await Portal(content.data.access,content.data.id_karyawan,content.data.divisi)
+            // console.log("setelah portal")
+            
            
 		} else {
             console.log("user error")
@@ -118,12 +130,12 @@
 
 			console.log(" ereoorr");
 			console.log(erore);
-			const targetHtml = document.getElementById("error");
-			targetHtml?.classList.remove("hidden");
-			setTimeout(() => {
-				targetHtml?.classList.add("hidden");
-			}, 5000);
-			targetHtml.innerHTML = erore;
+			// const targetHtml = document.getElementById("error");
+			// targetHtml?.classList.remove("hidden");
+			// setTimeout(() => {
+			// 	targetHtml?.classList.add("hidden");
+			// }, 5000);
+			// targetHtml.innerHTML = erore;
 		}
 	};
 

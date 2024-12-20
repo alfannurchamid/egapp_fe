@@ -32,7 +32,7 @@ const get_data_divisi =  async()=>{
   // @ts-ignore
   accessKey = GetCookie('accesskey')
   const response = await fetch(
-					"be.ekagroup.co/api/api/v1/divisi/get_divisi",
+					"http://localhost:8000/api/api/v1/divisi/get_divisi",
 					{
           method: "POST",
 					headers: {
@@ -57,7 +57,7 @@ const get_data_targets = async()=>{
   // @ts-ignore
   accessKey = GetCookie('accesskey')
   const response = await fetch(
-					"be.ekagroup.co/api/api/v1/target/get_targets",
+					"http://localhost:8000/api/api/v1/target/get_targets",
 					{
           method: "POST",
 					headers: {
@@ -80,7 +80,7 @@ const get_data_targets = async()=>{
   const get_renkers = async ()=>{
   // @ts-ignore
   accessKey = GetCookie('accesskey')
-    const response = await fetch('be.ekagroup.co/api/api/v1/rencana_kerja/get_rencana_kerjas',
+    const response = await fetch('http://localhost:8000/api/api/v1/rencana_kerja/get_rencana_kerjas',
     {
           method: "POST",
 					headers: {
@@ -105,7 +105,7 @@ const get_data_targets = async()=>{
  const get_karyawans = async ()=>{    
   // @ts-ignore
   accessKey = GetCookie('accesskey')
-    const response = await fetch('be.ekagroup.co/api/api/v1/karyawan/get_karyawans',
+    const response = await fetch('http://localhost:8000/api/api/v1/karyawan/get_karyawans',
     {
           method: "POST",
 					headers: {
@@ -145,9 +145,9 @@ onMount(async () => {
         <h4 class=" mx-2">{divisi_data.nama_divisi} </h4>
       </div>
       <h5 class=" text-xs mt-3">Jumlah karyawan : {divisi_data.jml_karyawan} </h5>
-      <h5 class=" text-xs">Jumlah staf : 8</h5>
+      <!-- <h5 class=" text-xs">Jumlah staf : 8</h5> -->
     </div>
-    <div class=" text-xxs flex flex-col items-center w-[60%]">
+    <div class=" text-xxs  hidden flex-col items-center w-[60%]">
       <p class=" text-sm border-b border-slate-400 pb-2">
         6 target | 10 rencana kerja
       </p>
@@ -206,20 +206,7 @@ onMount(async () => {
     </div>
   </div>
 
-  <!-- llist rencana kerja-->
-  <div class=" container p-3">
-    <h5 class="ml-2 mb-2 text-gray-500">capaian rencana kerja</h5>
 
-
-    {#each rencanaKerjas as renker }
-    <!-- card  rencanna kerja-->
-    <RencanaKerjaRow rencana_kerja = {renker}></RencanaKerjaRow>
-    {/each}
-
-    
-
- <div class=" w-fuull flex justify-center"> <a href="/#" class=" text-blue-500 mt-2">lihat lebih banyak v</a></div>
-  </div>
 
 
   <!-- daftar anggota -->
@@ -250,6 +237,21 @@ onMount(async () => {
     <div class=" h-20 w-full">
     </div>
   </div>
+
+    <!-- llist rencana kerja-->
+    <div class=" container p-3">
+      <h5 class="ml-2 mb-2 text-gray-500">capaian rencana kerja</h5>
+  
+  
+      {#each rencanaKerjas as renker }
+      <!-- card  rencanna kerja-->
+      <RencanaKerjaRow rencana_kerja = {renker}></RencanaKerjaRow>
+      {/each}
+  
+      
+  
+   <!-- <div class=" w-fuull flex justify-center"> <a href="/#" class=" text-blue-500 mt-2">lihat lebih banyak v</a></div> -->
+    </div>
 
 </div>
 

@@ -22,7 +22,8 @@
 
       //   status report 0 = belum acc 1 , 1 = belum acc 2 , 2 = acc 2, 3 = dilaksanakan , 4 = uploaded (pengajuan selesai)  ,5 tolak revisi  6 = tolak selesai , 7 terima selesai,
      let status_report = target.status
-     let access_user = 2
+    //  status_report = 2
+     let access_user = 4
 
      let report_files;
 
@@ -45,7 +46,7 @@
 
        accessKey =  GetCookie('accesskey')
        const response = await fetch(
-          "be.ekagroup.co/api/api/v1/rencana_kerja/update_rencana_kerja",
+          "http://localhost:8000/api/api/v1/target/update_target",
           {
                   method: "POST",
                   headers: {
@@ -78,19 +79,21 @@
             const request = new XMLHttpRequest();
             request.open(
               "POST",
-              "be.ekagroup.co/api/api/v1/tugas/upload_file_rencana_kerja"
+              "http://localhost:8000/api/api/v1/target/upload_file_target"
             );
             request.send(data);
             request.onreadystatechange = function () {
               if (this.readyState == 4 && this.status == 200) {
                 const obj = JSON.parse(this.responseText);
                 values_to_update['status']=4
-                update_capaian('file_name',obj.data.file_name)
+                update_capaian('file_name',obj.file_name)
               }
             };
           } else {
             alert("ukuran file terlalu besar !<br> maksimal 3 MB");
           }
+          loadinge(false)
+
       };
 
       const download_file_report = async()=>{
@@ -98,7 +101,7 @@
           // Falidate()
           accessKey =  GetCookie('accesskey')
             const response = await fetch(
-              "be.ekagroup.co/api/api/v1/divisi/report?file="+target.file_name+"&type=rencana_kerja",
+              "http://localhost:8000/api/api/v1/divisi/report?file="+target.file_name+"&type=target",
           {
                   method: "GET",
                   headers: {
@@ -138,13 +141,11 @@
           <div class="w-80 flex text-white bg-black rounded-tl-3xl rounded-b-3xl  p-5 bg-opacity-40  flex-col items-center  ">
               <div class="flex flex-col items-center w-full justify-center">
               <h4 class=" w-full text-center pb-1 border-b border-white text-white font-semibold mb-3">{#if status_report == 0}upload report{:else}lihat report{/if}</h4>
-              <p class=" pb-2 mb-4 text-white   border-b border-white ">KPI : {target.kpi}</p>
+              <p class=" pb-2 mb-4 text-white   border-b border-white ">KPI : {target.kpi} | {target.status}</p>
 
               {#if access_user  == 2}
                 <!-- jika access manager -->
-                {#if status_report < 2}
-                <h3>menunggu Acc dari Direksi</h3>
-                {:else if status_report == 2}
+                {#if status_report == 2}
                    <button on:click={()=>{update_capaian('status',3)}} class=" BtnSubmit w-32 mt-3 h-10 ">laksanakan</button>
                 {:else if status_report == 3 || status_report == 5}
                   {#if status_report == 5} <h3 class=" mb-3 bg-yellow-300 text-black p-1 px-3">Pelaksanaan ditolak dan anda harus merevisi!</h3> {/if}

@@ -31,7 +31,7 @@
     ]
 </script>
 
-<div transition:fly={{ delay: 100, duration: 700, x: 900, y: 0, opacity: 1, easing: quintInOut }} class=" w-screen fixed top-0 z-50 bg-white min-h-screen flex  flex-col py-8  " >
+<div transition:fly={{ delay: 100, duration: 700, x: 900, y: 0, opacity: 1, easing: quintInOut }} class=" px-4 w-screen fixed top-0 z-50 bg-white min-h-screen flex  flex-col py-8  " >
 <button on:click={()=>{currentOpenNotifPage(!open_notif)}} class=" w-full h-20 p-3 text-2xl flex px-5  "> 
     <div class=" rotate-45 translate-y-2  w-4 h-4 border-b-2 border-l-2 border-black"> </div>
     <h1 class="mx-2">Notifikasi</h1>

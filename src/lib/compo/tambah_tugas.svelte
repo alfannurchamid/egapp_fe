@@ -95,7 +95,7 @@
         alert("rencana kerja tidak yes")
       }
       accessKey = GetCookie('accesskey')
-        const response = await fetch('be.ekagroup.co/api/api/v1/karyawan/get_karyawans',
+        const response = await fetch('http://localhost:8000/api/api/v1/karyawan/get_karyawans',
         {
               method: "POST",
               headers: {
@@ -123,7 +123,7 @@
          var deskripsi = textatea.value
 
          const response = await fetch(
-			"be.ekagroup.co/api/api/v1/tugas/add_tugas",
+			"http://localhost:8000/api/api/v1/tugas/add_tugas",
 			{
                method: "POST",
                headers: {
@@ -146,7 +146,12 @@
          if(response.ok){
            await alert("berhasil menambahkan target")
            location.reload()
-         }else{alert("terjadi kesalahan")}
+         }else{ 
+          const errore = await getuser.json();
+			    const erore = errore.detail;
+          alert("terjadi kesalahan, " + errore.detail)
+          loadinge(false)
+        }
     }
 
     onMount(async ()=>{

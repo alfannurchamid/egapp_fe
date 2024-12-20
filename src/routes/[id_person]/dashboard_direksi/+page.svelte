@@ -2,10 +2,12 @@
     // @ts-nocheck
     import { goto } from "$app/navigation";
     import { Falidate } from "$lib/dependedncies/falidate_session_login";
-    import { GetCookie } from "$lib/stores/cokies";
+    import { GetCookie, logout } from "$lib/stores/cokies";
     import { loadinge } from "$lib/stores/load";
     import { onMount } from "svelte";
     import { SetCookie } from "$lib/stores/cokies";
+    import {  user} from "$lib/stores/userLogin";
+
     let divisies = []
 
     const portalLokal = (divisi)=>{
@@ -20,7 +22,7 @@
         accessKey = GetCookie("accesskey");
         // console.log(accessKey)
         const response = await fetch(
-                    "be.ekagroup.co/api/api/v1/divisi/get_divisies",
+                    "http://localhost:8000/api/api/v1/divisi/get_divisies",
                     {
                     method: "GET",
                     headers: {
@@ -38,10 +40,16 @@
 
     onMount(async () => { 
         await Falidate()
-        get_divisies()
-        loadinge(false);
+        console.log("lolos valliadte di dasb direlsi")
+        if($user.access !== 4){
+            logout()
+        }else{
+            console.log("access 4");
+        }
+		console.log("lolos logout");
+        await get_divisies()
+        await loadinge(false);
 
-		// console.log(accessKey);
     });
 
 
@@ -83,7 +91,7 @@
         <div class=" text-xxs flex flex-col items-center w-[60%]">
         
             <p class=" text-sm border-b border-slate-400 pb-2">6 target | 10 rencana kerja</p>
-            <div id="nilai" class=" text-center flex flex-col item-center">
+            <div id="nilai" class=" text-center hidden flex-col item-center">
                 <h4>capaian pelaksanaan tugas</h4>
                 <h8 class=" text-xxs" >bulan september</h8>
                 <div class=" grid grid-cols-2 grid-row-2 gap-2 mt-1  text-xs">

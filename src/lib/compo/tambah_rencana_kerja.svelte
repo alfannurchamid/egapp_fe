@@ -29,7 +29,7 @@
          var deskripsi = textatea.value
 
          const response = await fetch(
-			"be.ekagroup.co/api/api/v1/rencana_kerja/add_rencana_kerja",
+			"http://localhost:8000/api/api/v1/rencana_kerja/add_rencana_kerja",
 		
 			{
                method: "POST",
@@ -70,7 +70,7 @@
          <input name="kpi" type="text" class=" h-8 rounded-lg px-2 mb-4" bind:value={kpi} >
 
                   
-         <label for="start_date" class=" text-sm text-white mb-1">start date</label>
+         <label for="start_date" class=" text-sm text-white mb-1">mulai</label>
          <input name="start_date" type="date" class=" h-8 rounded-lg px-2 mb-4" bind:value={start_date} >
   
          <label for="kpi" class=" text-sm text-white mb-1">deadline</label>

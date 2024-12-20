@@ -1,4 +1,9 @@
 import { goto } from "$app/navigation";
+import { writable } from "svelte/store";
+import { loadinge } from "./load";
+import { resetUser, updateUser } from "./userLogin";
+
+export let logout_ = writable(true);
 
 export const SetCookie = (
   /** @type {string} */ name,
@@ -42,17 +47,20 @@ let message = "";
 
 export const generateAccesToken = async (/** @type {any} */ act) => {
   const refresh_token = act;
-  const response = await fetch("be.ekagroup.co/api/api/v1/auth/refresh_token", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      accept: "application/json",
-    },
-    credentials: "include",
-    body: JSON.stringify({
-      refresh_token,
-    }),
-  });
+  const response = await fetch(
+    "http://localhost:8000/api/api/v1/auth/refresh_token",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        accept: "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        refresh_token,
+      }),
+    }
+  );
 
   const content = await response.json();
   const actNew = content.data.access_token;
@@ -63,24 +71,39 @@ export const generateAccesToken = async (/** @type {any} */ act) => {
 };
 
 export const logout = async () => {
+  // @ts-ignore
+  logout_ = false;
+  console.log("masuk logout" + logout_);
+  resetUser();
   const refresh_token = GetCookie("refreshkey");
   if (refresh_token) {
-    const postLogout = await fetch("be.ekagroup.co/api/api/v1/auth/logout", {
-      method: "POST",
-      headers: {
-        accept: "*/*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        refresh_token,
-      }),
-    });
+    const postLogout = await fetch(
+      "http://localhost:8000/api/api/v1/auth/logout",
+      {
+        method: "POST",
+        headers: {
+          accept: "*/*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          refresh_token,
+        }),
+      }
+    );
+    // clear profile
+    await clear_cookie();
+    // console.log("clear kuki lolos");
   }
+  // console.log("logout beres");
+  goto("/login");
+  // loadinge(false);
+};
 
+const clear_cookie = async () => {
   document.cookie.split(";").forEach(function (c) {
     document.cookie = c
       .replace(/^ +/, "")
       .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
   });
-  goto("/login");
+  // console.log("clear kuki");
 };

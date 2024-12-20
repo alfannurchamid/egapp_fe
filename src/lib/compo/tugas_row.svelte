@@ -35,7 +35,7 @@ goto('../tugas/'+tugas.id_tugas)
     </div>
     <div class=" block w-full ">
         <div class=" flex justify-between flex-row w-full mb-2">
-            <button on:click={()=>{portal()}} class=" text-xs ml-2">{tugas.judul}</button> 
+            <button on:click={()=>{portal()}} class=" text-xs ml-2">{tugas.judul} | {tugas.id_tugas}</button> 
             <div class=" flex justify-between  max-w-32">
                 <button id='tg_edt_{tugas.id}' class=" " on:click={()=>{currentOpenEditTugas(tugas.id_tugas)}} >
                     <Edit kelas='w-5 h-5 mx-2 ' warna="stroke-gray-400"></Edit>
@@ -43,7 +43,7 @@ goto('../tugas/'+tugas.id_tugas)
                 <Work kelas=' fill-green-500 w-5 h-5'></Work>
               </div>
         </div>
-        <p class=" text-gray-600 text-xxs ml-2 text-end">start date : {tugas.deadline.substr(0,10)}</p> 
+        <p class=" text-gray-600 text-xxs ml-2 text-end">mulai : {tugas.deadline.substr(0,10)}</p> 
         <p class=" text-gray-600 text-xxs ml-2 text-end">deadline : {tugas.start_date.substr(0,10)}</p> 
     </div>
 </div>

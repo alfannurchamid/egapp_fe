@@ -32,7 +32,7 @@
     const get_tugass = async ()=>{
         console.log("Cekkkk")
         accessKey = GetCookie('accesskey')
-        const response = await fetch('be.ekagroup.co/api/api/v1/tugas/get_tugases',
+        const response = await fetch('http://localhost:8000/api/api/v1/tugas/get_tugases',
             {
               method: "POST",
               headers: {
@@ -56,7 +56,7 @@
 
     const get_renker = async ()=>{
         accessKey = GetCookie('accesskey')
-        const response = await fetch('be.ekagroup.co/api/api/v1/rencana_kerja/get_rencana_kerja',
+        const response = await fetch('http://localhost:8000/api/api/v1/rencana_kerja/get_rencana_kerja',
         {
             method: "POST",
               headers: {
@@ -78,7 +78,7 @@
 
     const get_catatan = async ()=>{
         accessKey = GetCookie('accesskey')
-        const response = await fetch('be.ekagroup.co/api/api/v1/catatan_renker/get_catatan_renkers',
+        const response = await fetch('http://localhost:8000/api/api/v1/catatan_renker/get_catatan_renkers',
         {
             method: "POST",
               headers: {
@@ -103,7 +103,7 @@
         alert("rencana kerja tidak yes")
       }
       accessKey = GetCookie('accesskey')
-        const response = await fetch('be.ekagroup.co/api/api/v1/karyawan/get_karyawans',
+        const response = await fetch('http://localhost:8000/api/api/v1/karyawan/get_karyawans',
         {
               method: "POST",
               headers: {
@@ -150,7 +150,12 @@
             <h3>mulai : {renker.start_date.substr(0,10)}</h3> 
             <h3>deadline : {renker.deadline.substr(0,10)}</h3>
           {/if}
-            <div class=" "> Persentase capaian pekerjaan {renker.progres}% </div>
+          <div class="flex flex-col">
+            <h5 class="text-xxs ">progres kerja {renker.progres}%</h5>
+            <div name="progres" class=" mt-1   w-28 h-1 bg-slate-200  ">
+              <div class=" h-1  bg-green-500" style="width: {renker.progres}%;"></div>
+            </div>
+          </div>
         </div>
         <h3 class="mt-4 text-xs">deskripsi : </h3>
         <p class=" text-sm  "> {renker.deskripsi} </p>
