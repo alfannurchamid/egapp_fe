@@ -14,10 +14,15 @@
   import { onMount } from "svelte";
   import { Falidate } from "$lib/dependedncies/falidate_session_login";
 
+<<<<<<< HEAD
   import { breadcrumbs } from "$lib/stores/breadcrumb";
 
   let catatans = [];
 
+=======
+  let catatans = [];
+
+>>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
   let KPI = "file konten plan";
   let accessKey = "";
 
@@ -43,6 +48,7 @@
     }
   };
 
+<<<<<<< HEAD
   $: divisiId = $page.params.divisi_id;
 
   onMount(async () => {
@@ -64,6 +70,11 @@
         href: `/A004/dashboard_divisi/`,
       },
     ]);
+=======
+  onMount(async () => {
+    await Falidate();
+    await get_catatan();
+>>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
   });
 </script>
 

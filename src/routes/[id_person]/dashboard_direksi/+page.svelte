@@ -2,6 +2,7 @@
   // @ts-nocheck
   import { goto } from "$app/navigation";
   import { Falidate } from "$lib/dependedncies/falidate_session_login";
+<<<<<<< HEAD
   import { GetCookie, SetCookie } from "$lib/stores/cokies";
   import { loadinge } from "$lib/stores/load";
   import { onMount } from "svelte";
@@ -65,6 +66,48 @@
     breadcrumbs.set([
       { label: "Dashboard", href: `/${idKaryawan}/dashboard_direksi` },
     ]);
+=======
+  import { GetCookie } from "$lib/stores/cokies";
+  import { loadinge } from "$lib/stores/load";
+  import { onMount } from "svelte";
+  import { SetCookie } from "$lib/stores/cokies";
+  let divisies = [];
+
+  const portalLokal = (divisi) => {
+    goto("dashboard_divisi/" + divisi.id_divisi + "/");
+  };
+
+  let accessKey = "";
+  console.log(accessKey);
+  let refreshKey = "";
+
+  const get_divisies = async () => {
+    accessKey = GetCookie("accesskey");
+    // console.log(accessKey)
+    const response = await fetch(
+      "https://be.ekagroup.co/api/api/v1/divisi/get_divisies",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessKey,
+        },
+        credentials: "include",
+      }
+    );
+
+    const content = await response.json();
+    console.log(content);
+    divisies = content.data;
+  };
+
+  onMount(async () => {
+    await Falidate();
+    get_divisies();
+    loadinge(false);
+
+    // console.log(accessKey);
+>>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
   });
 </script>
 
@@ -79,7 +122,11 @@
 
 </div> -->
 
+<<<<<<< HEAD
 <div class=" w-full flex flex-col text-sm mt-24 pt-8 bg-gray-50">
+=======
+<div class=" w-full flex flex-col text-sm mt-6 bg-gray-50">
+>>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
   <!-- inni card jobs divisi report  -->
   {#each divisies as divisi}
     <button

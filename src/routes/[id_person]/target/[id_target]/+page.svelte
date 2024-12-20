@@ -24,8 +24,11 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
 
+<<<<<<< HEAD
   import { breadcrumbs } from "$lib/stores/breadcrumb";
 
+=======
+>>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
   let accessKey = "";
   /**
    * @type {any[]}
@@ -79,6 +82,7 @@
     if (response.ok) {
       let targett = await response.json();
       target = targett.data;
+<<<<<<< HEAD
 
       console.log("HASIL FETCH ===", target);
     }
@@ -122,6 +126,34 @@
       >
       <h6>KPI : {target.kpi}</h6>
 
+=======
+    }
+  };
+  let persen = "w-[" + "60" + "%]";
+  onMount(async () => {
+    await Falidate();
+
+    await get_renkers();
+    await get_target();
+    persen = "w-[" + target.progres.toString() + "%]";
+  });
+</script>
+
+<h2 class=" mt-20 w-full p-2 text-lg text-center">Target divisi markrting</h2>
+<div class="flex text-gray-700 p-5 w-fullh-40 mt-3 bg-slate-50 flex-col mx-2.5">
+  <h3>{target.judul}</h3>
+  <div class="  h-full w-fuull flex">
+    <div class=" w-7/12 pr-3 text-xs mt-3">{target.deskripsi}</div>
+    <div class=" border-l w-5/12 p-2 h-[80%] mt-2 flex justify-center flex-col">
+      <button
+        on:click={() => {
+          currentOpenUpCapaian(true);
+        }}
+        class=" text-xxs BtnSubmitMini w-auto p-1 mb-2">update capaian</button
+      >
+      <h6>KPI : {target.kpi}</h6>
+
+>>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
       <h6 class=" text-xxs mt-2">persentase capaian {target.progres}%</h6>
       <div class=" w-28 h-1 bg-slate-200">
         <div class=" h-1 bg-green-500" style="width: {target.progres}%;"></div>

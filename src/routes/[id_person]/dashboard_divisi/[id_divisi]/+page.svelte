@@ -48,7 +48,11 @@
       let divisi_data_ = await response.json();
       divisi_data = divisi_data_.data;
     }
+<<<<<<< HEAD
     console.log("======= HASIL FETCH ========", divisi_data);
+=======
+    console.log(divisi_data);
+>>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
   };
 
   const get_data_targets = async () => {
@@ -122,6 +126,7 @@
       console.log(karyawans.data);
     }
   };
+<<<<<<< HEAD
 
   import { breadcrumbs } from "$lib/stores/breadcrumb";
 
@@ -147,6 +152,19 @@
 </script>
 
 <div class=" w-full flex flex-col text-sm mt-28 pt-2 px-2">
+=======
+
+  onMount(async () => {
+    await Falidate();
+    get_data_divisi();
+    get_data_targets();
+    get_renkers();
+    get_karyawans();
+  });
+</script>
+
+<div class=" w-full flex flex-col text-sm mt-2 pt-2 px-2">
+>>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
   <h1 class=" capitalize text-lg text-center my-2">
     Divisi {divisi_data.nama_divisi}
   </h1>

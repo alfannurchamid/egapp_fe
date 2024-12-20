@@ -63,8 +63,24 @@ export const generateAccesToken = async (/** @type {any} */ act) => {
 };
 
 export const logout = async () => {
+<<<<<<< HEAD
   try {
     const refreshToken = GetCookie("refreshkey");
+=======
+  const refresh_token = GetCookie("refreshkey");
+  if (refresh_token) {
+    const postLogout = await fetch("https://be.ekagroup.co/api/api/v1/auth/logout", {
+      method: "POST",
+      headers: {
+        accept: "*/*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        refresh_token,
+      }),
+    });
+  }
+>>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
 
     if (refreshToken) {
       const response = await fetch("https://be.ekagroup.co/api/api/v1/auth/logout", {

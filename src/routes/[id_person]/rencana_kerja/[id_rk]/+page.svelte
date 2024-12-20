@@ -28,6 +28,7 @@
   import { GetCookie } from "$lib/stores/cokies";
   import { user } from "$lib/stores/userLogin";
 
+<<<<<<< HEAD
   import { breadcrumbs } from "$lib/stores/breadcrumb";
 
   // data  dari server
@@ -39,6 +40,17 @@
   let renker = {};
   let karyawans = [];
 
+=======
+  // data  dari server
+
+  const my_id = "400a";
+  let catatans = [];
+  let tugases = [];
+  let accessKey = "";
+  let renker = {};
+  let karyawans = [];
+
+>>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
   const get_tugass = async () => {
     console.log("Cekkkk");
     accessKey = GetCookie("accesskey");
@@ -134,6 +146,7 @@
       karyawans = karyawans_.data.data;
     }
   };
+<<<<<<< HEAD
 
   $: divisiId = $page.params.divisi_id;
 
@@ -164,6 +177,23 @@
     ]);
   });
 
+=======
+  onMount(async () => {
+    await Falidate();
+    await get_tugass();
+    await get_renker();
+    await get_catatan();
+    await get_karyawans();
+    // @ts-ignore
+    currentPelaksanaRow([
+      { nama: "alpen", id: "A004", atribute: "" },
+      { nama: "devi", id: "A005", atribute: "" },
+      { nama: "nanang", id: "A003", atribute: "" },
+      { nama: "sibon", id: "A006", atribute: "" },
+    ]);
+  });
+
+>>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
   const KPI = "omset 200 jt bulan september 2024";
 </script>
 

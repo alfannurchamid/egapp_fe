@@ -1,25 +1,25 @@
 <script>
-// @ts-nocheck
+  // @ts-nocheck
 
-    import { fade,fly } from "svelte/transition";
-    import { quintOut } from "svelte/easing";
-    import { Falidate } from "$lib/dependedncies/falidate_session_login";
-      let judul= ""
-      let deskripsi = writable("")
-      let kpi= ""
-      let start_date = ""
-      let deadline= ""
-      let id_divisi = parseInt($page.params.id_divisi)
-      
-      let accessKey = ''
-      const post_target =  async()=>{
+  import { fade, fly } from "svelte/transition";
+  import { quintOut } from "svelte/easing";
+  import { Falidate } from "$lib/dependedncies/falidate_session_login";
+  let judul = "";
+  let deskripsi = writable("");
+  let kpi = "";
+  let start_date = "";
+  let deadline = "";
+  let id_divisi = parseInt($page.params.id_divisi);
 
-         loadinge(true)
-         Falidate()
-         accessKey =  GetCookie('accesskey')
-         var textatea = document.getElementById("deskripsi")
-         var deskripsi = textatea.value
+  let accessKey = "";
+  const post_target = async () => {
+    loadinge(true);
+    Falidate();
+    accessKey = GetCookie("accesskey");
+    var textatea = document.getElementById("deskripsi");
+    var deskripsi = textatea.value;
 
+<<<<<<< HEAD
          const response = await fetch(
 			"https://be.ekagroup.co/api/api/v1/target/add_target",
 		
@@ -44,13 +44,39 @@
            await alert("berhasil menambahkan target")
            location.reload()
          }else{alert("terjadi kesalahan")}
+=======
+    const response = await fetch(
+      "https://be.ekagroup.co/api/api/v1/target/add_target",
+
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessKey,
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          judul,
+          deskripsi,
+          kpi,
+          start_date,
+          deadline,
+          id_divisi,
+        }),
+>>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
       }
+    );
+    if (response.ok) {
+      await alert("berhasil menambahkan target");
+      location.reload();
+    } else {
+      alert("terjadi kesalahan");
+    }
+  };
 
+  let openform = false;
 
-
-    let openform = false
-
-    import { currentOpenUpTambahTarget } from "$lib/stores/openPopTarget";
+  import { currentOpenUpTambahTarget } from "$lib/stores/openPopTarget";
   import { writable } from "svelte/store";
   import { GetCookie } from "$lib/stores/cokies";
 
@@ -59,33 +85,80 @@
   import { text } from "@sveltejs/kit";
 </script>
 
-<div transition:fly={{ delay: 250, duration: 700, x: 0, y: 900, opacity: 0.5, easing: quintOut }} id="popaddrk" class=" flex absolute w-screen h-screen flex-col  items-center pt-20 top-0 z-30 backdrop-blur-xl backdrop-brightness-100  bg-gray-200 bg-opacity-5">
+<div
+  transition:fly={{
+    delay: 250,
+    duration: 700,
+    x: 0,
+    y: 900,
+    opacity: 0.5,
+    easing: quintOut,
+  }}
+  id="popaddrk"
+  class=" flex absolute w-screen h-screen flex-col items-center pt-20 top-0 z-30 backdrop-blur-xl backdrop-brightness-100 bg-gray-200 bg-opacity-5"
+>
+  <div class="w-80 flex bg-black rounded-3xl p-5 bg-opacity-30 flex-col">
+    <h4 class=" text-white text-center w-full">Tambah Target</h4>
+    <form
+      on:submit={() => {
+        post_target();
+      }}
+      class=" flex flex-col"
+    >
+      <label for="judul" class=" text-sm text-white mb-1">judul</label>
+      <input
+        name="judul"
+        type="text"
+        class=" h-8 rounded-lg px-2 mb-4"
+        bind:value={judul}
+      />
 
-    <div class="w-80 flex bg-black rounded-3xl p-5 bg-opacity-30 flex-col  ">
-      <h4 class=" text-white  text-center w-full ">Tambah Target</h4>
-      <form on:submit={()=>{post_target()}} class=" flex flex-col">
-         <label for="judul" class=" text-sm text-white mb-1">judul</label>
-         <input name="judul" type="text" class=" h-8 rounded-lg px-2 mb-4" bind:value={judul} >
-  
-         <label for="deskripsi" class=" text-sm text-white mb-1">deskripsi</label>
-         <textarea name="deskripsi"  class=" min-h-20 rounded-lg px-2 mb-4 " id="deskripsi"> </textarea>
-  
-         <label for="kpi" class=" text-sm text-white mb-1">KPI</label>
-         <input name="kpi" type="text" class=" h-8 rounded-lg px-2 mb-4" bind:value={kpi} >
-         
-         <label for="start_date" class=" text-sm text-white mb-1">start date</label>
-         <input name="start_date" type="date" class=" h-8 rounded-lg px-2 mb-4" bind:value={start_date} >
+      <label for="deskripsi" class=" text-sm text-white mb-1">deskripsi</label>
+      <textarea
+        name="deskripsi"
+        class=" min-h-20 rounded-lg px-2 mb-4"
+        id="deskripsi"
+      >
+      </textarea>
 
-         <label for="deadline" class=" text-sm text-white mb-1">deadline</label>
-         <input name="deadline" type="date" class=" h-8 rounded-lg px-2 mb-4" bind:value={deadline} >
+      <label for="kpi" class=" text-sm text-white mb-1">KPI</label>
+      <input
+        name="kpi"
+        type="text"
+        class=" h-8 rounded-lg px-2 mb-4"
+        bind:value={kpi}
+      />
 
+      <label for="start_date" class=" text-sm text-white mb-1">start date</label
+      >
+      <input
+        name="start_date"
+        type="date"
+        class=" h-8 rounded-lg px-2 mb-4"
+        bind:value={start_date}
+      />
 
-         <div class=" mt-5 grid grid-cols-2 grid-rows-1 gap-3">
-            <!-- svelte-ignore a11y-click-events-have-key-events -->
-            <!-- svelte-ignore a11y-no-static-element-interactions -->
-            <div on:click={()=>{currentOpenUpTambahTarget(false)}}  class=" BtnNegative  ">batal</div>
-            <button type="submit" class=" BtnSubmit w-full h-10 ">simpan</button>
-         </div>
-      </form>
-    </div>
+      <label for="deadline" class=" text-sm text-white mb-1">deadline</label>
+      <input
+        name="deadline"
+        type="date"
+        class=" h-8 rounded-lg px-2 mb-4"
+        bind:value={deadline}
+      />
+
+      <div class=" mt-5 grid grid-cols-2 grid-rows-1 gap-3">
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div
+          on:click={() => {
+            currentOpenUpTambahTarget(false);
+          }}
+          class=" BtnNegative"
+        >
+          batal
+        </div>
+        <button type="submit" class=" BtnSubmit w-full h-10">simpan</button>
+      </div>
+    </form>
   </div>
+</div>
