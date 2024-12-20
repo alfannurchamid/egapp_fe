@@ -48,7 +48,7 @@ let message = "";
 export const generateAccesToken = async (/** @type {any} */ act) => {
   const refresh_token = act;
   const response = await fetch(
-    "http://localhost:8000/api/api/v1/auth/refresh_token",
+    `${import.meta.env.VITE_API_BASE_URL}/auth/refresh_token`,
     {
       method: "POST",
       headers: {
@@ -78,7 +78,7 @@ export const logout = async () => {
   const refresh_token = GetCookie("refreshkey");
   if (refresh_token) {
     const postLogout = await fetch(
-      "http://localhost:8000/api/api/v1/auth/logout",
+      `${import.meta.env.VITE_API_BASE_URL}/auth/logout`,
       {
         method: "POST",
         headers: {

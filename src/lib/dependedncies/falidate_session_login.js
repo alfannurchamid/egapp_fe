@@ -20,7 +20,7 @@ export const Falidate = async () => {
       //   console.log("asccess key ada");
 
       const response = await fetch(
-        "http://localhost:8000/api/api/v1/auth/get_profile",
+        `${import.meta.env.VITE_API_BASE_URL}/auth/get_profile`,
         {
           headers: {
             "Content-Type": "application/json",
