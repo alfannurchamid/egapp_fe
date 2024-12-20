@@ -204,7 +204,11 @@
         //  var deskripsi = textatea.value
 
          const response = await fetch(
+<<<<<<< HEAD
 			"https://be.ekagroup.co/api/api/v1/tugas/update_tugas",
+=======
+			"http://localhost:8000/api/api/v1/tugas/update_tugas",
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 			{
                method: "POST",
                headers: {

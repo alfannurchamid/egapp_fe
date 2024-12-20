@@ -17,10 +17,67 @@
 <<<<<<< HEAD
   import { breadcrumbs } from "$lib/stores/breadcrumb";
 
+<<<<<<< HEAD
   let catatans = [];
 
 =======
   let catatans = [];
+=======
+  let catatans = []
+    
+    let KPI = 'file konten plan'
+    let accessKey = ''
+    let tugas = {}
+    
+    const get_catatan = async ()=>{
+        accessKey = GetCookie('accesskey')
+        const response = await fetch('http://localhost:8000/api/api/v1/catatan_tugas/get_catatan_tugases',
+        {
+            method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer "+accessKey ,
+                },
+                body : JSON.stringify({
+                  id_tugas :  parseInt($page.params.id_tugas)
+                }),
+                credentials: "include",
+        }
+        )
+        if(response.ok){
+            let catatan_ = await response.json()
+            catatans = catatan_.data.data
+        }
+    } 
+
+    const get_tugas = async ()=>{
+        console.log("Cekkkk")
+        accessKey = GetCookie('accesskey')
+        const response = await fetch('http://localhost:8000/api/api/v1/tugas/get_tugas',
+            {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer "+accessKey ,
+                },
+                body : JSON.stringify({
+                  id_tugas :  parseInt($page.params.id_tugas)
+                }),
+                credentials: "include",
+              }
+          )
+            if(response.ok){
+              let tugas_ = await response.json()
+              tugas = tugas_.data
+            }
+    } 
+
+    onMount(async()=>{
+      await Falidate()
+      await get_catatan()
+      await get_tugas()
+       })
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 
 >>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
   let KPI = "file konten plan";
@@ -77,6 +134,7 @@
 >>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
   });
 </script>
+<<<<<<< HEAD
 
 <div
   class=" mt-20 rencanakerja_card p-1 px-5 my-2 w-full bg-white flex flex-col rounded-lg"
@@ -115,6 +173,45 @@
     labore iure ipsa debitis, veniam natus temporibus vero quasi nihil deserunt
     laboriosam aspernatur, recusandae officiis, dolore dolorum dicta harum.
   </p>
+=======
+<div class=" mt-20 rencanakerja_card p-1 px-5 my-2 w-full bg-white  flex flex-col rounded-lg ">
+  <div class=" w-full flex justify-between">
+    <h6  class=" text-sm mb-3">Tugas</h6>
+    <div class="flex items-center">
+      status : 
+      <div class=" p-2 h-3 rounded ml-2 bg-green-400 text-xxs text-center flex items-center justify-center text-white">  selesai  </div>
+    </div>
+  </div>
+
+    <h3>{tugas.pelaksana}</h3>
+    <h3>{tugas.judul}</h3>
+
+    <div class=" flex w-full justify-between text-xs mt-2 text-gray-600">
+      {#if tugas.deadline}
+      <h3>deadline : {tugas.deadline.substr(0,10)}</h3>
+      {/if}
+      <div class="flex flex-col">
+        <h5 class="text-xxs ">progres kerja {tugas.progres}%</h5>
+        <div name="progres" class=" mt-1   w-28 h-1 bg-slate-200  ">
+          <div class=" h-1  bg-green-500" style="width: {tugas.progres}%;"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex w-full justify-around text-xxs mt-3 bg-slate-50">
+        <!-- <h3 class=" text-xxs">jenis : rutin</h3> -->
+        <!-- selesai , menunggu , dikerjakan , di blokir -->
+        <!-- <div class="flex">
+            status : 
+            <div class=" p-2 h-3 rounded ml-2 bg-green-400 text-xxs text-center flex items-center justify-center text-white">  selesai  </div>
+        </div> -->
+        <!-- <div class="flex">
+            prioritas :
+            <div class=" ml-2 p-2 h-3 rounded bg-yellow-400 text-xxs text-center flex items-center justify-center ">  P0  </div>
+        </div> -->
+    </div>
+    <p class=" text-sm  mt-4"> {tugas.deskripsi} </p>
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 </div>
 
 <div class=" flex w-full bg-gray-50 p-2 text-xs justify-around">
@@ -137,7 +234,11 @@
 </div>
 
 {#if $open_report}
+<<<<<<< HEAD
   <ReportTugas {KPI}></ReportTugas>
+=======
+<ReportTugas tugas = {tugas}></ReportTugas>
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 {/if}
 
 {#if $open_catatan}

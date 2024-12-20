@@ -33,6 +33,7 @@
 
   // data  dari server
 
+<<<<<<< HEAD
   const my_id = "400a";
   let catatans = [];
   let tugases = [];
@@ -42,6 +43,53 @@
 
 =======
   // data  dari server
+=======
+    const get_tugass = async ()=>{
+        console.log("Cekkkk")
+        accessKey = GetCookie('accesskey')
+        const response = await fetch('http://localhost:8000/api/api/v1/tugas/get_tugases',
+            {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer "+accessKey ,
+                },
+                body : JSON.stringify({
+                  id_renker :  parseInt($page.params.id_rk),
+                  bebas : 0
+                }),
+                credentials: "include",
+              }
+          )
+            if(response.ok){
+              let tugas = await response.json()
+              tugases = tugas.data
+            }
+            console.log("tugases")
+            console.log(tugases)
+    }  
+
+    const get_renker = async ()=>{
+        accessKey = GetCookie('accesskey')
+        const response = await fetch('http://localhost:8000/api/api/v1/rencana_kerja/get_rencana_kerja',
+        {
+            method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer "+accessKey ,
+                },
+                body : JSON.stringify({
+                  id_renker :  parseInt($page.params.id_rk)
+                }),
+                credentials: "include",
+        }
+        )
+        if(response.ok){
+            let renker_ = await response.json()
+            renker = renker_.data
+        }
+    }
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 
   const my_id = "400a";
   let catatans = [];
@@ -50,6 +98,7 @@
   let renker = {};
   let karyawans = [];
 
+<<<<<<< HEAD
 >>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
   const get_tugass = async () => {
     console.log("Cekkkk");
@@ -76,6 +125,51 @@
     console.log("tugases");
     console.log(tugases);
   };
+=======
+    const get_catatan = async ()=>{
+        accessKey = GetCookie('accesskey')
+        const response = await fetch('http://localhost:8000/api/api/v1/catatan_renker/get_catatan_renkers',
+        {
+            method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer "+accessKey ,
+                },
+                body : JSON.stringify({
+                  id_renker :  parseInt($page.params.id_rk)
+                }),
+                credentials: "include",
+        }
+        )
+        if(response.ok){
+            let catatan_ = await response.json()
+            catatans = catatan_.data.data
+        }
+    }
+
+    const get_karyawans = async ()=>{    
+      // @ts-ignore
+      if(!renker){
+        alert("rencana kerja tidak yes")
+      }
+      accessKey = GetCookie('accesskey')
+        const response = await fetch('http://localhost:8000/api/api/v1/karyawan/get_karyawans',
+        {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + accessKey,
+                },
+                    body : JSON.stringify({
+                    divisi : "9" 
+                }),
+                credentials: "include",
+              }
+              )
+            if(response.ok){
+              let karyawans_ = await response.json()
+              karyawans = karyawans_.data.data
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 
   const get_renker = async () => {
     accessKey = GetCookie("accesskey");
@@ -204,6 +298,7 @@
   <div class=" flex w-full justify-between">
     <h3 class=" text-lg">{renker.judul}</h3>
 
+<<<<<<< HEAD
     <div
       class=" p-2 h-3 rounded bg-green-400 text-xxs text-center flex items-center justify-center text-white"
     >
@@ -219,6 +314,24 @@
   </div>
   <h3 class="mt-4 text-xs">deskripsi :</h3>
   <p class=" text-sm">{renker.deskripsi}</p>
+=======
+            <div class=" p-2 h-3 rounded bg-green-400 text-xxs text-center flex items-center justify-center text-white "> Setujui </div>
+        </div>
+        <div class=" flex w-full justify-between text-xs mt-2 text-gray-600">
+          {#if renker.deadline && renker.start_date }
+            <h3>mulai : {renker.start_date.substr(0,10)}</h3> 
+            <h3>deadline : {renker.deadline.substr(0,10)}</h3>
+          {/if}
+          <div class="flex flex-col">
+            <h5 class="text-xxs ">progres kerja {renker.progres}%</h5>
+            <div name="progres" class=" mt-1   w-28 h-1 bg-slate-200  ">
+              <div class=" h-1  bg-green-500" style="width: {renker.progres}%;"></div>
+            </div>
+          </div>
+        </div>
+        <h3 class="mt-4 text-xs">deskripsi : </h3>
+        <p class=" text-sm  "> {renker.deskripsi} </p>
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 
   <h3 class="mt-4 text-xs">KPI :</h3>
   <p class=" text-sm">{renker.kpi}</p>

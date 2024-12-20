@@ -27,7 +27,11 @@
 
 <<<<<<< HEAD
       const getuser = await fetch(
+<<<<<<< HEAD
 			"https://be.ekagroup.co/api/api/v1/catatan_tugas/add_catatan_tugas",
+=======
+			"http://localhost:8000/api/api/v1/catatan_tugas/add_catatan_tugas",
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 		
 			{
 				method: "POST",
@@ -78,6 +82,7 @@
   };
 </script>
 
+<<<<<<< HEAD
 <div
   transition:fly={{
     delay: 250,
@@ -101,6 +106,21 @@
         <div class="rotate-[45deg] transition-all duration-500">
           <Plus ukuran="w-10 h-10" warna="stroke-white"></Plus>
         </div>
+=======
+
+<div  transition:fly={{ delay: 250, duration: 700, x: 0, y: 900, opacity: 0.5, easing: quintOut }} id="popeditrk" class=" fixed form_pop flex left-0  w-screen h-screen flex-col  items-center pt-20 top-0 z-40 ">
+
+    <div class=" w-80 h-10  flex justify-between items-end">
+      
+
+      <button class=" flex ">  
+         <button on:click={()=>{tambah_open = !tambah_open , rotate = ((rotate < 40) ? 45 : 0);}} class=" h-10 w-10 bg-black rounded-t-2xl  bg-opacity-40 flex justify-center items-end">
+            <div class=" rotate-{rotate} transition-all duration-500 ">
+               <Plus ukuran='w-10 h-10' warna='stroke-white'></Plus>
+            </div>
+         </button>
+         <div class=" w-5 h-5 bg-black aux-container rotate-90 bg-opacity-40  self-end "> </div>
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
       </button>
       <div
         class=" w-5 h-5 bg-black aux-container rotate-90 bg-opacity-40 self-end"
@@ -118,6 +138,7 @@
         <X></X>
       </button>
     </div>
+<<<<<<< HEAD
   </div>
 
   <div class="w-80 flex bg-black rounded-b-3xl p-5 bg-opacity-40 flex-col">
@@ -147,6 +168,19 @@
           class=" BtnSubmit w-full p-2">tambah</button
         >
         <!-- <div class=' hidden w-full '>
+=======
+ 
+    
+    <div class="w-80 flex bg-black rounded-b-3xl  p-5 bg-opacity-40  flex-col  ">
+      {#if tambah_open}
+      <div transition:slide={{ delay: 250, duration: 300, easing: circInOut, axis: 'y' }}  
+                  id="dropdownstaff" class=" duration-700  w-full flex-col mb-5 text-gray-500  flex overflow-hidden ">
+      <p class=" w-full capitalize text-white text-center  mb-2"> tambah catatn</p>
+        
+                  <textarea class=" rounded-lg w-full min-h-20 h-auto p-2 mb-2 " bind:value={catatan_baru}  />
+         <button disabled={!catatan_baru} on:click={()=>{post_catatan()}} class=" BtnSubmit  w-full p-2">tambah</button>
+         <!-- <div class=' hidden w-full '>
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
             <button class=" BtnNegative mr-1">batal</button>
             <button disabled={!catatan_baru} class=" BtnSubmit ml-1 w-full p-2">tambah</button>
          </div>  -->

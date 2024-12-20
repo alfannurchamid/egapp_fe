@@ -29,6 +29,7 @@
     const getuser = await fetch(
       "https://be.ekagroup.co/api/api/v1/catatan_renker/add_catatan_renker",
 
+<<<<<<< HEAD
       {
         method: "POST",
         headers: {
@@ -41,6 +42,31 @@
           id_renker,
         }),
         credentials: "include",
+=======
+      const getuser = await fetch(
+			"http://localhost:8000/api/api/v1/catatan_renker/add_catatan_renker",
+		
+			{
+				method: "POST",
+				headers: {
+               "Content-Type": "application/json",
+               Authorization: "Bearer "+accessKey ,
+				},
+				credentials: "include",
+				body: JSON.stringify({
+					catatan : catatan_baru,
+					id_renker
+				}),
+                credentials: "include",
+			}
+		);
+		if (getuser.ok) {
+         loadinge(false)
+         await alert("catatan baru ditambahkan ")
+         catatans.unshift({catatan:catatan_baru})
+         catatans = catatans
+         catatan_baru = ''
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
       }
     );
     if (getuser.ok) {

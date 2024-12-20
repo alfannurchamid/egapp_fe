@@ -79,6 +79,7 @@
     console.log(targets, "targets");
   };
 
+<<<<<<< HEAD
   const get_renkers = async () => {
     // @ts-ignore
     accessKey = GetCookie("accesskey");
@@ -129,6 +130,77 @@
 <<<<<<< HEAD
 
   import { breadcrumbs } from "$lib/stores/breadcrumb";
+=======
+const get_data_divisi =  async()=>{
+  // @ts-ignore
+  accessKey = GetCookie('accesskey')
+  const response = await fetch(
+					"http://localhost:8000/api/api/v1/divisi/get_divisi",
+					{
+          method: "POST",
+					headers: {
+							"Content-Type": "application/json",
+							Authorization: "Bearer " + accessKey,
+						},
+            body : JSON.stringify({
+              id_divisi : $page.params.id_divisi
+            }),
+						credentials: "include",
+					}
+				);
+  if (response.ok) {
+    let divisi_data_   = await response.json();
+    divisi_data = divisi_data_.data
+  }
+		console.log(divisi_data);
+}
+
+const get_data_targets = async()=>{
+ 
+  // @ts-ignore
+  accessKey = GetCookie('accesskey')
+  const response = await fetch(
+					"http://localhost:8000/api/api/v1/target/get_targets",
+					{
+          method: "POST",
+					headers: {
+							"Content-Type": "application/json",
+							Authorization: "Bearer " + accessKey,
+						},
+          body : JSON.stringify({
+              id_divisi : parseInt($page.params.id_divisi)
+            }),
+					credentials: "include",
+					}
+				);
+  if (response.ok) {
+    let targets_data   = await response.json();
+    targets = targets_data.data
+  }
+		console.log(targets,"targets");
+  }
+
+  const get_renkers = async ()=>{
+  // @ts-ignore
+  accessKey = GetCookie('accesskey')
+    const response = await fetch('http://localhost:8000/api/api/v1/rencana_kerja/get_rencana_kerjas',
+    {
+          method: "POST",
+					headers: {
+							"Content-Type": "application/json",
+							Authorization: "Bearer " + accessKey,
+						},
+            body : JSON.stringify({
+              id_divisi:parseInt($page.params.id_divisi),
+              bebas : 0
+            }),
+						credentials: "include",
+					}
+  )
+        if(response.ok){
+          let renker = await response.json()
+          rencanaKerjas = renker.data
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 
   $: divisiId = $page.params.divisi_id;
 
@@ -139,6 +211,7 @@
     await get_renkers();
     await get_karyawans();
 
+<<<<<<< HEAD
     breadcrumbs.set([
       { label: "Dashboard", href: "/A004/dashboard_direksi" },
       {
@@ -147,6 +220,39 @@
       },
     ]);
   });
+=======
+ const get_karyawans = async ()=>{    
+  // @ts-ignore
+  accessKey = GetCookie('accesskey')
+    const response = await fetch('http://localhost:8000/api/api/v1/karyawan/get_karyawans',
+    {
+          method: "POST",
+					headers: {
+							"Content-Type": "application/json",
+							Authorization: "Bearer " + accessKey,
+						},
+            body : JSON.stringify({
+             
+              divisi : $page.params.id_divisi
+            }),
+						credentials: "include",
+					}
+          )
+        if(response.ok){
+          let karyawans_ = await response.json()
+          karyawans = karyawans_.data.data
+          console.log(karyawans.data)
+        }
+ }
+
+onMount(async () => { 
+  await Falidate()
+  get_data_divisi()
+  get_data_targets()
+  get_renkers()
+  get_karyawans()
+});
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 
   /*  onMount(async () => {}); */
 </script>
@@ -175,12 +281,17 @@
         <div class="  h-12 w-12 rounded-full bg-gray-400"></div>
         <h4 class=" mx-2">{divisi_data.nama_divisi}</h4>
       </div>
+<<<<<<< HEAD
       <h5 class=" text-xs mt-3">
         Jumlah karyawan : {divisi_data.jml_karyawan}
       </h5>
       <h5 class=" text-xs">Jumlah staf : 8</h5>
+=======
+      <h5 class=" text-xs mt-3">Jumlah karyawan : {divisi_data.jml_karyawan} </h5>
+      <!-- <h5 class=" text-xs">Jumlah staf : 8</h5> -->
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
     </div>
-    <div class=" text-xxs flex flex-col items-center w-[60%]">
+    <div class=" text-xxs  hidden flex-col items-center w-[60%]">
       <p class=" text-sm border-b border-slate-400 pb-2">
         6 target | 10 rencana kerja
       </p>
@@ -250,10 +361,8 @@
     </div>
   </div>
 
-  <!-- llist rencana kerja-->
-  <div class=" container p-3">
-    <h5 class="ml-2 mb-2 text-gray-500">capaian rencana kerja</h5>
 
+<<<<<<< HEAD
     {#each rencanaKerjas as renker}
       <!-- card  rencanna kerja-->
       <RencanaKerjaRow rencana_kerja={renker}></RencanaKerjaRow>
@@ -263,6 +372,9 @@
       <a href="/#" class=" text-blue-500 mt-2">lihat lebih banyak v</a>
     </div>
   </div>
+=======
+
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 
   <!-- daftar anggota -->
 
@@ -287,6 +399,25 @@
 
     <div class=" h-20 w-full"></div>
   </div>
+<<<<<<< HEAD
+=======
+
+    <!-- llist rencana kerja-->
+    <div class=" container p-3">
+      <h5 class="ml-2 mb-2 text-gray-500">capaian rencana kerja</h5>
+  
+  
+      {#each rencanaKerjas as renker }
+      <!-- card  rencanna kerja-->
+      <RencanaKerjaRow rencana_kerja = {renker}></RencanaKerjaRow>
+      {/each}
+  
+      
+  
+   <!-- <div class=" w-fuull flex justify-center"> <a href="/#" class=" text-blue-500 mt-2">lihat lebih banyak v</a></div> -->
+    </div>
+
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 </div>
 
 <!-- svelte-ignore missing-declaration -->

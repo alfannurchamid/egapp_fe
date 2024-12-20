@@ -1,4 +1,5 @@
 <script>
+<<<<<<< HEAD
   // @ts-nocheck
   import { goto } from "$app/navigation";
   import { Falidate } from "$lib/dependedncies/falidate_session_login";
@@ -8,6 +9,18 @@
   import { onMount } from "svelte";
   import { user } from "$lib/stores/userLogin";
   import { breadcrumbs } from "$lib/stores/breadcrumb";
+=======
+    // @ts-nocheck
+    import { goto } from "$app/navigation";
+    import { Falidate } from "$lib/dependedncies/falidate_session_login";
+    import { GetCookie, logout } from "$lib/stores/cokies";
+    import { loadinge } from "$lib/stores/load";
+    import { onMount } from "svelte";
+    import { SetCookie } from "$lib/stores/cokies";
+    import {  user} from "$lib/stores/userLogin";
+
+    let divisies = []
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 
   let divisies = [];
   let accessKey = "";
@@ -63,6 +76,7 @@
       loadinge(false);
     }
 
+<<<<<<< HEAD
     breadcrumbs.set([
       { label: "Dashboard", href: `/${idKaryawan}/dashboard_direksi` },
     ]);
@@ -72,11 +86,32 @@
   import { onMount } from "svelte";
   import { SetCookie } from "$lib/stores/cokies";
   let divisies = [];
+=======
+    let accessKey = "";
+    console.log(accessKey)
+    let refreshKey= "";
+    
+    const get_divisies = async () => {
+        accessKey = GetCookie("accesskey");
+        // console.log(accessKey)
+        const response = await fetch(
+                    "http://localhost:8000/api/api/v1/divisi/get_divisies",
+                    {
+                    method: "GET",
+                    headers: {
+                            "Content-Type": "application/json",
+                            Authorization: "Bearer " + accessKey,
+                        },
+                        credentials: "include",
+                    }
+                );
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 
   const portalLokal = (divisi) => {
     goto("dashboard_divisi/" + divisi.id_divisi + "/");
   };
 
+<<<<<<< HEAD
   let accessKey = "";
   console.log(accessKey);
   let refreshKey = "";
@@ -95,6 +130,21 @@
         credentials: "include",
       }
     );
+=======
+    onMount(async () => { 
+        await Falidate()
+        console.log("lolos valliadte di dasb direlsi")
+        if($user.access !== 4){
+            logout()
+        }else{
+            console.log("access 4");
+        }
+		console.log("lolos logout");
+        await get_divisies()
+        await loadinge(false);
+
+    });
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 
     const content = await response.json();
     console.log(content);
@@ -141,6 +191,7 @@
           <div class="  h-12 w-12 rounded-full bg-gray-400"></div>
           <h4 class=" mx-2">{divisi.nama_divisi}</h4>
         </div>
+<<<<<<< HEAD
         <h5 class=" text-xs">
           Manager :
           {#if divisi.manager}
@@ -162,6 +213,31 @@
             <div class=" flex">
               <div class=" w-8 rounded bg-yellow-400 mr-1">P0</div>
               8<i class=" ml-1 text-xxxs"> tugas tercapai </i>
+=======
+        <div class=" text-xxs flex flex-col items-center w-[60%]">
+        
+            <p class=" text-sm border-b border-slate-400 pb-2">6 target | 10 rencana kerja</p>
+            <div id="nilai" class=" text-center hidden flex-col item-center">
+                <h4>capaian pelaksanaan tugas</h4>
+                <h8 class=" text-xxs" >bulan september</h8>
+                <div class=" grid grid-cols-2 grid-row-2 gap-2 mt-1  text-xs">
+                    
+                    <div class=" flex ">
+                        <div class=" w-8 rounded bg-yellow-400 mr-1">P0</div> 8 <i class=" ml-1 text-xxxs"> tugas tercapai </i> 
+                    </div>
+                    <div class=" flex ">
+                        <div class=" w-8 rounded bg-yellow-300 mr-1">P1</div> 8 <i class=" ml-1 text-xxxs"> tugas tercapai </i> 
+                    </div>
+                    <div class=" flex ">
+                        <div class=" w-8 rounded bg-yellow-200 mr-1">P2</div> 8 <i class=" ml-1 text-xxxs"> tugas tercapai </i> 
+                    </div>
+                    <div class=" flex ">
+                        <div class=" w-8 rounded bg-yellow-100 mr-1">P3</div> 8 <i class=" ml-1 text-xxxs"> tugas tercapai </i> 
+                    </div>
+                
+                </div>
+                <div class='w-28 mt-2 bg-red-400 text-white rounded'> 10 tugas terhambat</div>
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
             </div>
             <div class=" flex">
               <div class=" w-8 rounded bg-yellow-300 mr-1">P1</div>

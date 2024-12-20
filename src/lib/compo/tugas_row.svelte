@@ -35,8 +35,23 @@
     >
       <Person kelas="w-5 h-5 fill-gray-500"></Person>
     </div>
+<<<<<<< HEAD
     <div>
       <h3 class=" ml-3">{tugas.pelaksana.split(" ")[0]}</h3>
+=======
+    <div class=" block w-full ">
+        <div class=" flex justify-between flex-row w-full mb-2">
+            <button on:click={()=>{portal()}} class=" text-xs ml-2">{tugas.judul} | {tugas.id_tugas}</button> 
+            <div class=" flex justify-between  max-w-32">
+                <button id='tg_edt_{tugas.id}' class=" " on:click={()=>{currentOpenEditTugas(tugas.id_tugas)}} >
+                    <Edit kelas='w-5 h-5 mx-2 ' warna="stroke-gray-400"></Edit>
+                </button>
+                <Work kelas=' fill-green-500 w-5 h-5'></Work>
+              </div>
+        </div>
+        <p class=" text-gray-600 text-xxs ml-2 text-end">mulai : {tugas.deadline.substr(0,10)}</p> 
+        <p class=" text-gray-600 text-xxs ml-2 text-end">deadline : {tugas.start_date.substr(0,10)}</p> 
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
     </div>
   </div>
   <div class=" block w-full">

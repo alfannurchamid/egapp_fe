@@ -35,6 +35,7 @@
    */
   let rencanaKerjas = [];
 
+<<<<<<< HEAD
   let target = {};
   const get_renkers = async () => {
     // @ts-ignore
@@ -57,11 +58,35 @@
     if (response.ok) {
       let renker = await response.json();
       rencanaKerjas = renker.data;
+=======
+  let target = {}
+ const get_renkers = async ()=>{
+  // @ts-ignore
+  accessKey =  GetCookie('accesskey')
+    const response = await fetch('http://localhost:8000/api/api/v1/rencana_kerja/get_rencana_kerjas',
+    {
+          method: "POST",
+					headers: {
+							"Content-Type": "application/json",
+							Authorization: "Bearer " + accessKey,
+						},
+            body : JSON.stringify({
+              id_target :  parseInt($page.params.id_target),
+              bebas : 0
+            }),
+						credentials: "include",
+					}
+  )
+        if(response.ok){
+          let renker = await response.json()
+          rencanaKerjas = renker.data
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 
       console.log(rencanaKerjas);
     }
   };
 
+<<<<<<< HEAD
   const get_target = async () => {
     // @ts-ignore
     accessKey = GetCookie("accesskey");
@@ -83,6 +108,27 @@
       let targett = await response.json();
       target = targett.data;
 <<<<<<< HEAD
+=======
+ const get_target = async ()=>{
+  // @ts-ignore
+  accessKey =  GetCookie('accesskey')
+    const response = await fetch('http://localhost:8000/api/api/v1/target/get_target',
+    {
+          method: "POST",
+					headers: {
+							"Content-Type": "application/json",
+							Authorization: "Bearer " + accessKey,
+						},
+          body : JSON.stringify({
+              id_target : parseInt($page.params.id_target)
+            }),
+					credentials: "include",
+					}
+  )
+        if(response.ok){
+          let targett = await response.json()
+          target = targett.data
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 
       console.log("HASIL FETCH ===", target);
     }
@@ -173,9 +219,16 @@
   {/each}
   <!-- card -->
 
+<<<<<<< HEAD
   <div class=" w-full flex justify-center">
     <a href="/#" class=" text-xxs text-blue-500 mt-2">lihat lebih banyak v</a>
   </div>
+=======
+  
+  
+
+<!-- <div class=" w-full flex justify-center"> <a href="/#" class=" text-xxs text-blue-500 mt-2">lihat lebih banyak v</a></div> -->
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 </div>
 
 <button

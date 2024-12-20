@@ -1,4 +1,5 @@
 <script>
+<<<<<<< HEAD
   // @ts-nocheck
   import { SetCookie, GetCookie, logout } from "$lib/stores/cokies";
   import { onMount } from "svelte/internal";
@@ -28,6 +29,40 @@
       target?.remove("TbAktif");
       target?.add("TbPasif");
       Lengkap = false;
+=======
+// @ts-nocheck
+    import { SetCookie, GetCookie, logout , logout_ } from "$lib/stores/cokies";
+    import {onMount} from "svelte/internal"
+    import logo from "$lib/img/LOGO_EG.svg"
+    import { Input } from "postcss";
+	import { loadinge } from "$lib/stores/load";
+    import { goto } from "$app/navigation";
+    import { RefreshToken } from "$lib/stores/auth";
+    import { updateUser ,user} from "$lib/stores/userLogin";
+    import {Portal} from "$lib/dependedncies/portal"
+    import {Falidate} from "$lib/dependedncies/falidate_session_login"
+
+
+    let password = ""
+    let username = ""
+    let Lengkap = false
+    let accessKey = "";
+	let refreshKey= "";
+    
+
+    const CekSandi = ()=>{
+        console.log(password)
+        const target =  document.getElementById("TbMasuk")?.classList
+        if(password.length >0){
+            target?.remove("TbPasif")
+            target?.add("TbAktif")
+            Lengkap = true
+        }else{
+            target?.remove("TbAktif")
+            target?.add("TbPasif")
+            Lengkap = false
+        }
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
     }
   };
 
@@ -91,6 +126,7 @@
           },
           credentials: "include",
         }
+<<<<<<< HEAD
       );
 
       const content = await response.json();
@@ -99,6 +135,23 @@
       Portal(content.data.access, content.data.id_karyawan);
     } else {
       console.log("user error");
+=======
+        }
+
+	onMount(async () => {
+        // console.log("masuk login");
+
+		if(await Falidate()){
+            console.log("----user"+$user)
+            await Portal(
+            $user.access,
+            $user.id_karyawan,
+            $user.divisi
+          );
+        };
+    
+	});
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 
       loadinge(false);
       const errore = await getuser.json();
@@ -107,7 +160,6 @@
 <<<<<<< HEAD
     const submited = async () => {
         // console.log(username)
-
 		if (!username) {
             console.log("!username")
 			return;
@@ -115,8 +167,12 @@
         // console.log("aaass")
 		loadinge(true);
 		const getuser = await fetch(
+<<<<<<< HEAD
 			"https://be.ekagroup.co/api/api/v1/auth/login",
 		
+=======
+			"http://localhost:8000/api/api/v1/auth/login",
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 			{
 				method: "POST",
 				headers: {
@@ -130,7 +186,9 @@
 				}),
 			}
 		);
+
 		if (getuser.ok) {
+            // logout_ = true
             // console.log("user sukses")
 			let user1 = await getuser.json();
 			// console.log(user1.data);
@@ -138,11 +196,15 @@
 			const expired_at = user1.data.expired_at;
 			const refreshKey = user1.data.refresh_token;
 
-			SetCookie("accesskey", accessKey, expired_at);
-			SetCookie("refreshkey", refreshKey, 3600000 * 24);
+			await SetCookie("accesskey", accessKey, expired_at);
+			await SetCookie("refreshkey", refreshKey, 3600000 * 24);
 
 			const response = await fetch(
+<<<<<<< HEAD
 				"https://be.ekagroup.co/api/api/v1/auth/get_profile",
+=======
+				"http://localhost:8000/api/api/v1/auth/get_profile",
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -153,9 +215,17 @@
 			);
 
 			const content = await response.json();
-            // console.log(content)
-            updateUser(content.data)
-            Portal(content.data.access,content.data.id_karyawan)
+            // console.log(content.data.access)
+            // alert("set")
+            if (content.data.access == 0) {alert( "menunnggu persetujuan akses dari HRGA , mohon hubungi nomor Hrga unntuk meminta akses");
+                     await logout();
+            }else{
+            await updateUser(content.data)
+            }
+            // console.log("ulai portal")
+            await Portal(content.data.access,content.data.id_karyawan,content.data.divisi)
+            // console.log("setelah portal")
+            
            
 		} else {
             console.log("user error")
@@ -166,12 +236,12 @@
 
 			console.log(" ereoorr");
 			console.log(erore);
-			const targetHtml = document.getElementById("error");
-			targetHtml?.classList.remove("hidden");
-			setTimeout(() => {
-				targetHtml?.classList.add("hidden");
-			}, 5000);
-			targetHtml.innerHTML = erore;
+			// const targetHtml = document.getElementById("error");
+			// targetHtml?.classList.remove("hidden");
+			// setTimeout(() => {
+			// 	targetHtml?.classList.add("hidden");
+			// }, 5000);
+			// targetHtml.innerHTML = erore;
 		}
 	};
 

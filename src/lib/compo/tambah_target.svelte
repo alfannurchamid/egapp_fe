@@ -21,7 +21,11 @@
 
 <<<<<<< HEAD
          const response = await fetch(
+<<<<<<< HEAD
 			"https://be.ekagroup.co/api/api/v1/target/add_target",
+=======
+			"http://localhost:8000/api/api/v1/target/add_target",
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 		
 			{
                method: "POST",
@@ -113,6 +117,7 @@
         bind:value={judul}
       />
 
+<<<<<<< HEAD
       <label for="deskripsi" class=" text-sm text-white mb-1">deskripsi</label>
       <textarea
         name="deskripsi"
@@ -120,6 +125,22 @@
         id="deskripsi"
       >
       </textarea>
+=======
+    <div class="w-80 flex bg-black rounded-3xl p-5 bg-opacity-30 flex-col  ">
+      <h4 class=" text-white  text-center w-full ">Tambah Target</h4>
+      <form on:submit={()=>{post_target()}} class=" flex flex-col">
+         <label for="judul" class=" text-sm text-white mb-1">judul</label>
+         <input name="judul" type="text" class=" h-8 rounded-lg px-2 mb-4" bind:value={judul} >
+  
+         <label for="deskripsi" class=" text-sm text-white mb-1">deskripsi</label>
+         <textarea name="deskripsi"  class=" min-h-20 rounded-lg px-2 mb-4 " id="deskripsi"> </textarea>
+  
+         <label for="kpi" class=" text-sm text-white mb-1">KPI</label>
+         <input name="kpi" type="text" class=" h-8 rounded-lg px-2 mb-4" bind:value={kpi} >
+         
+         <label for="start_date" class=" text-sm text-white mb-1">mulai</label>
+         <input name="start_date" type="date" class=" h-8 rounded-lg px-2 mb-4" bind:value={start_date} >
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 
       <label for="kpi" class=" text-sm text-white mb-1">KPI</label>
       <input

@@ -29,7 +29,11 @@
 
 <<<<<<< HEAD
          const response = await fetch(
+<<<<<<< HEAD
 			"https://be.ekagroup.co/api/api/v1/rencana_kerja/add_rencana_kerja",
+=======
+			"http://localhost:8000/api/api/v1/rencana_kerja/add_rencana_kerja",
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 		
 			{
                method: "POST",
@@ -114,6 +118,7 @@
       >
       </textarea>
 
+<<<<<<< HEAD
       <label for="kpi" class=" text-sm text-white mb-1">KPI</label>
       <input
         name="kpi"
@@ -156,3 +161,18 @@
     </form>
   </div>
 </div>
+=======
+                  
+         <label for="start_date" class=" text-sm text-white mb-1">mulai</label>
+         <input name="start_date" type="date" class=" h-8 rounded-lg px-2 mb-4" bind:value={start_date} >
+  
+         <label for="kpi" class=" text-sm text-white mb-1">deadline</label>
+         <input name="kpi" type="date" class=" h-8 rounded-lg px-2 mb-4"  bind:value={deadline} >
+         <div class=" mt-5 grid grid-cols-2 grid-rows-1 gap-3">
+            <button on:click={()=>{currentOpenTambahRk(false)}}  class=" BtnNegative  ">batal</button>
+            <button type="submit" on:click={()=>{post_rencana_kerja()}} class=" BtnSubmit w-full h-10 ">simpan</button>
+         </div>
+      </form>
+    </div>
+  </div>
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb

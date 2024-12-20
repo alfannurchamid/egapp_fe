@@ -112,7 +112,11 @@
       }
 <<<<<<< HEAD
       accessKey = GetCookie('accesskey')
+<<<<<<< HEAD
         const response = await fetch('https://be.ekagroup.co/api/api/v1/karyawan/get_karyawans',
+=======
+        const response = await fetch('http://localhost:8000/api/api/v1/karyawan/get_karyawans',
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
         {
               method: "POST",
               headers: {
@@ -140,7 +144,11 @@
          var deskripsi = textatea.value
 
          const response = await fetch(
+<<<<<<< HEAD
 			"https://be.ekagroup.co/api/api/v1/tugas/add_tugas",
+=======
+			"http://localhost:8000/api/api/v1/tugas/add_tugas",
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
 			{
                method: "POST",
                headers: {
@@ -163,6 +171,7 @@
          if(response.ok){
            await alert("berhasil menambahkan target")
            location.reload()
+<<<<<<< HEAD
          }else{alert("terjadi kesalahan")}
 =======
     );
@@ -171,6 +180,14 @@
       staff = karyawans_.data.data;
       console.log(staff);
 >>>>>>> 5a17fa01db14bf6bb4d37d46cd8a15db1e87efab
+=======
+         }else{ 
+          const errore = await getuser.json();
+			    const erore = errore.detail;
+          alert("terjadi kesalahan, " + errore.detail)
+          loadinge(false)
+        }
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
     }
   };
 

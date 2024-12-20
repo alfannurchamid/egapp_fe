@@ -2,7 +2,11 @@ import { GetCookie, logout, SetCookie } from "$lib/stores/cokies";
 
 export const RefreshToken = async (/** @type {string} */ refreshToken) => {
   const responsenya = await fetch(
+<<<<<<< HEAD
     "https://be.ekagroup.co/api/api/v1/auth/refresh_token",
+=======
+    "http://localhost:8000/api/api/v1/auth/refresh_token",
+>>>>>>> e3cd1e68cacc7cc5b78dca51d25603c6a2a46bdb
     {
       method: "POST",
       headers: {
