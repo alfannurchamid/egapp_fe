@@ -1,6 +1,7 @@
 import { goto } from "$app/navigation";
 import { writable } from "svelte/store";
 import { loadinge } from "./load";
+import { currentOpenProfile, open_profile } from "$lib/stores/general";
 import { resetUser, updateUser } from "./userLogin";
 
 export let logout_ = writable(true);
@@ -95,6 +96,7 @@ export const logout = async () => {
     // console.log("clear kuki lolos");
   }
   // console.log("logout beres");
+  currentOpenProfile(false);
   goto("/login");
   // loadinge(false);
 };

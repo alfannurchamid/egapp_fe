@@ -9,6 +9,7 @@
     import {  user} from "$lib/stores/userLogin";
 
     let divisies = []
+    
 
     const portalLokal = (divisi)=>{
         goto('dashboard_divisi/'+divisi.id_divisi+'/')

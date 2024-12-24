@@ -21,7 +21,7 @@
        export let renker
 
         //   2 =belumm dilaksanakan , 3 = dilaksanakan , 4 = uploaded (pengajuan selesai)  ,5 tolak revisi  6 = tolak selesai , 7 terima selesai,
-       let status_report = 3
+       let status_report = renker.status
        let access_user = 2
 
        let report_files;
@@ -42,6 +42,7 @@
          loadinge(true)
          Falidate()
           values_to_update[key] = value
+          values_to_update['id_divisi']=renker.id_divisi
 
          accessKey =  GetCookie('accesskey')
          const response = await fetch(

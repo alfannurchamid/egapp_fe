@@ -19,7 +19,9 @@ export const Portal = (
       break;
     case 1:
       console.log("masuk ke 1" + divisi);
-      goto("/" + id_karyawan + "/dashboard_divisi/" + divisi + "/staff");
+      goto(
+        "/" + id_karyawan + "/dashboard_divisi/" + divisi + "/dashboard_staff"
+      );
       break;
     // jika akses = 2
     case 2:
@@ -39,8 +41,9 @@ export const Portal = (
       goto("/" + id_karyawan + "/dashboard_direksi");
       break;
     // jika akses = 5
-    // case 5:
-    //   goto("/" + id_karyawan + "/dashboard_direksi");
+    case 5:
+      goto("/" + id_karyawan + "/dashboard_hrga");
+      break;
   }
   loadinge(false);
 };

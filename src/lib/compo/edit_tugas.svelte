@@ -30,7 +30,11 @@
     export let tugas;
     export let karyawans
 
-    let staff_sekarang = karyawans.slice()
+    let staff_sekarang = []
+    
+    if(karyawans){
+      karyawans.slice()
+    }
     
 
     /**
@@ -206,32 +210,35 @@
          <label for="deadline" class=" text-sm text-white mb-1" >deadline</label>
   
          <input name="deadline" type="date" class=" h-8 rounded-lg px-2 mb-4" value={date}  on:input={e => date = e.target.value || date} on:change={()=>{value_change('deadline',date)}} >
-  
-         <label for="pelaksana" class=" text-sm text-white mb-1">pelaksanaan
-        </label>
-              
-          <div class=" bg-white py-2 rounded-lg px-2 mb-4  cursor-pointer">
-              <button on:click={()=>{opDdStaff = !opDdStaff}} class=" w-full flex justify-between items-center px-2">
-                  <label for="">{staf_terpilih_value}</label>
-                  {#if opDdStaff}
-                      
-                  <div  class="rotate-180">
+          
+         {#if karyawans}          
+            <label for="pelaksana" class=" text-sm text-white mb-1">pelaksanaan
+            </label>
+                  
+              <div class=" bg-white py-2 rounded-lg px-2 mb-4  cursor-pointer">
+                  <button on:click={()=>{opDdStaff = !opDdStaff}} class=" w-full flex justify-between items-center px-2">
+                      <label for="">{staf_terpilih_value}</label>
+                      {#if opDdStaff}
+                          
+                      <div  class="rotate-180">
+                          <Dropdown kelas='w-8 h-8'></Dropdown>
+                      </div>
+                      {:else}
                       <Dropdown kelas='w-8 h-8'></Dropdown>
+                      {/if}
+                  </button>
+                  {#if  opDdStaff}
+                  <div transition:slide={{ delay: 250, duration: 300, easing: circInOut, axis: 'y' }}  
+                      id="dropdownstaff" class=" duration-700  w-full flex-col text-gray-500  flex overflow-hidden ">
+                      {#each staff_sekarang as stafff }
+                        <button on:click={updateStaffPilih(stafff.id_karyawan) } id='{stafff.id_karyawan}' class=" {stafff.id_karyawan} p-1 px-5 border-b  flex justify-between {stafff.atribute}  " >{stafff.nama} <Check kelas='w-5 h-5  ' kelas2='stroke-2 '></Check></button> 
+                      {/each}
                   </div>
-                  {:else}
-                  <Dropdown kelas='w-8 h-8'></Dropdown>
                   {/if}
-              </button>
-              {#if  opDdStaff}
-              <div transition:slide={{ delay: 250, duration: 300, easing: circInOut, axis: 'y' }}  
-                  id="dropdownstaff" class=" duration-700  w-full flex-col text-gray-500  flex overflow-hidden ">
-                  {#each staff_sekarang as stafff }
-                    <button on:click={updateStaffPilih(stafff.id_karyawan) } id='{stafff.id_karyawan}' class=" {stafff.id_karyawan} p-1 px-5 border-b  flex justify-between {stafff.atribute}  " >{stafff.nama} <Check kelas='w-5 h-5  ' kelas2='stroke-2 '></Check></button> 
-                  {/each}
-              </div>
-              {/if}
-              
-         </div>
+                  
+            </div>
+
+         {/if}
   
          <div class=" mt-5 grid grid-cols-2 grid-rows-1 gap-3">
             <!-- svelte-ignore a11y-click-events-have-key-events -->

@@ -130,6 +130,8 @@
 
 			console.log(" ereoorr");
 			console.log(erore);
+            alert(erore)
+
 			// const targetHtml = document.getElementById("error");
 			// targetHtml?.classList.remove("hidden");
 			// setTimeout(() => {

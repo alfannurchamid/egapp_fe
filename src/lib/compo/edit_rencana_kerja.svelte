@@ -49,7 +49,8 @@
          if(response.ok){
            await alert("berhasil update rencana kerja")
            location.reload()
-         }else{alert("terjadi kesalahan")}
+         }else{alert("terjadi kesalahan")
+      loadinge(false)}
     }
 
     let date = (rencana_kerja.deadline).slice(0, 10);
@@ -71,8 +72,6 @@
       <div class=" h-10 w-10 bg-black rounded-t-2xl  bg-opacity-40 flex justify-center items-end">
          <Delete dimensi='w-8 h-8' color='stroke-white'></Delete>
       </div>
-      
-      
    </div>
    <div class="w-80 flex bg-black rounded-b-3xl rounded-l-3xl p-5 bg-opacity-40  flex-col  ">
             

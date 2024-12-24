@@ -7,6 +7,8 @@
   import { currentOpenElementEditId,open_element_id } from "$lib/stores/openPopRenKer";
   import EditRencanaKerja from "./edit_rencana_kerja.svelte";
 
+  import { page } from "$app/stores";
+
 
   export let rencana_kerja ;
   let local_id_element_pop = "x"
@@ -14,7 +16,13 @@
   import { goto } from "$app/navigation";
 
   const portal = ()=>{
-   goto('../rencana_kerja/'+rencana_kerja.id_renker)
+    console.log($page.route.id)
+    if($page.route.id.includes("dashboard_staff")){
+      goto('../../rencana_kerja/'+rencana_kerja.id_renker)
+    }else{
+      goto('../rencana_kerja/'+rencana_kerja.id_renker)
+
+    }
 }
 </script>
 <div class=" rencanakerja_card p-1 px-2 min-h-12 my-2  w-full bg-white drop-shadow flex rounded-lg ">

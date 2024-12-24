@@ -32,7 +32,7 @@ export const resetUser = () => {
     nama_divisi: "",
   };
   updateUser(kosong);
-  console.log("reset user");
+  // console.log("reset user");
 };
 
 export let lengkap = writable(false);
@@ -42,7 +42,7 @@ export const updateUser = (
   target
 ) => {
   // @ts-ignore
-  console.log(target);
+  // console.log(target);
 
   user.update(() => {
     return target;

@@ -7,6 +7,11 @@
     import { currentOpenNotifPage, currentOpenProfile, open_notif, open_profile } from "$lib/stores/general";
   import NontifPage from "$lib/compo/nontif_page.svelte";
   import EditProfile from "$lib/compo/edit_profile.svelte";
+  import { onMount } from "svelte";
+
+  onMount(()=>{
+    console.log("load header")
+  })
 </script>
 <div class="fixed z-20 top-0 flex w-full   p-3 px-6 text-gray-800 bg-white drop-shadow">
     <div class="w-full flex justify-between items-center flex-row">
