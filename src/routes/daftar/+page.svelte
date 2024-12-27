@@ -34,7 +34,7 @@
     const push_daftar = async ()=>{
         loadinge(true);
         const response = await fetch(
-			"http://localhost:8000/api/api/v1/auth/register",
+			"https://be.ekagroup.co/api/api/v1/auth/register",
 			{
 				method: "POST",
 				headers: {
@@ -92,7 +92,7 @@
         </div>
         <div class="w-full flex flex-col my-1 ">
             <label for="username" class=" text-xs" >Username</label>
-            <input  id="username" bind:value={username}  placeholder="Contoh: 3307011203000000" class=" placeholder:text-gray-300  px-3 placeholder:text-sm  my-1 h-9 rounded-lg border border-collapse border-gray-300 focus:border-gray-700 focus:border "  type="text">
+            <input  id="username" bind:value={username}  placeholder="Contoh: putra_petir" class=" placeholder:text-gray-300  px-3 placeholder:text-sm  my-1 h-9 rounded-lg border border-collapse border-gray-300 focus:border-gray-700 focus:border "  type="text">
            <p id="alert_username" class="text-xs text-red-400 hidden">username harus diisi</p>
        </div>
         <div class="w-full flex flex-col my-1 ">

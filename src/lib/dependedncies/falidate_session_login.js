@@ -20,7 +20,7 @@ export const Falidate = async () => {
       //   console.log("asccess key ada");
 
       const response = await fetch(
-        "http://localhost:8000/api/api/v1/auth/get_profile",
+        "https://be.ekagroup.co/api/api/v1/auth/get_profile",
         {
           headers: {
             "Content-Type": "application/json",

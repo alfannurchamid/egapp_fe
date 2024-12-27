@@ -22,7 +22,7 @@
 
         //   2 =belumm dilaksanakan , 3 = dilaksanakan , 4 = uploaded (pengajuan selesai)  ,5 tolak revisi  6 = tolak selesai , 7 terima selesai,
        let status_report = renker.status
-       let access_user = 2
+       let access_user = $user.access
 
        let report_files;
 
@@ -46,7 +46,7 @@
 
          accessKey =  GetCookie('accesskey')
          const response = await fetch(
-            "http://localhost:8000/api/api/v1/rencana_kerja/update_rencana_kerja",
+            "https://be.ekagroup.co/api/api/v1/rencana_kerja/update_rencana_kerja",
             {
                     method: "POST",
                     headers: {
@@ -79,7 +79,7 @@
               const request = new XMLHttpRequest();
               request.open(
                 "POST",
-                "http://localhost:8000/api/api/v1/rencana_kerja/upload_file_rencana_kerja"
+                "https://be.ekagroup.co/api/api/v1/rencana_kerja/upload_file_rencana_kerja"
               );
               request.send(data);
               request.onreadystatechange = function () {
@@ -99,7 +99,7 @@
             Falidate()
             accessKey =  GetCookie('accesskey')
               const response = await fetch(
-                "http://localhost:8000/api/api/v1/divisi/report?file="+renker.file_name+"&type=rencana_kerja",
+                "https://be.ekagroup.co/api/api/v1/divisi/report?file="+renker.file_name+"&type=rencana_kerja",
             {
                     method: "GET",
                     headers: {
@@ -114,9 +114,10 @@
           window.location.assign(file);
         });
          
-         if(response.ok){
-          alert("oke")
-         }
+        loadinge(false)
+          if(!response.ok){
+           alert("gagal mengunduh file")
+        }
         };
 
         
@@ -140,11 +141,14 @@
                 <div class="flex flex-col items-center w-full justify-center">
                 <h4 class=" w-full text-center pb-1 border-b border-white text-white font-semibold mb-3">{#if status_report == 0}upload report{:else}lihat report{/if}</h4>
                 <p class=" pb-2 mb-4 text-white   border-b border-white ">KPI : {renker.kpi}</p>
-                {#if status_report < 2}
-                <h3>menunggu Acc dari Direksi</h3>
-                {:else if access_user  == 2}
+ 
+                {#if access_user  == 2}
                   <!-- jika access manager -->
-                  {#if status_report == 2}
+                  {#if status_report == 0}
+                        <h3> Anda telah Mengajukan Rencana Kerja, tunggu acc dari audit dan direksi</h3>
+                  {:else if status_report == 1}
+                        <h3> Anda telah Mengajukan Rencana Kerja, tunggu acc dari direksi</h3>
+                  {:else if status_report == 2}
                      <button on:click={()=>{update_capaian('status',3)}} class=" BtnSubmit w-32 mt-3 h-10 ">laksanakan</button>
                   {:else if status_report == 3 || status_report == 5}
                     {#if status_report == 5} <h3 class=" mb-3 bg-yellow-300 text-black p-1 px-3">Pelaksanaan ditolak dan anda harus merevisi!</h3> {/if}
@@ -156,7 +160,11 @@
                   {:else if status_report == 4}
                     <h3 class=" text-center mb-3">Anda telah mengunggah file report , silahkan tunggu review dari Audit</h3>
                     <button on:click={()=>{download_file_report()}} class=" w-60 h-10 bg-cyan-400  rounded-lg flex justify-around text-base items-center"> <h5 class=" border-r border-white px-5">download file</h5> <DownloadFile ukuran='w-8 h-8'></DownloadFile></button>
-                  {/if}   
+                  {:else if status_report == 6}
+                    <h3>tugas telah selesai dan mencapai target</h3>
+                  {:else if status_report == 7}
+                    <h3>tugas telah selesai dan tidak mencapai target</h3>
+                    {/if}   
                 {:else if access_user == 3}
                       <!-- jika access audit -->
                       {#if status_report == 0}

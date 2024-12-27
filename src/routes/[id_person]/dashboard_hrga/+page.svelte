@@ -28,10 +28,13 @@
   }
 
   const cari_update = ()=>{
-    console.log("cari")
-    let regex = new RegExp(cari_value, "i");
-    is_cari = true
-    cari_result = karyawans.filter(karyawan => regex.test(karyawan.nama))
+    if(cari_value==""){
+      is_cari = false
+    }else{
+      let regex = new RegExp(cari_value, "i");
+      is_cari = true
+      cari_result = karyawans.filter(karyawan => regex.test(karyawan.nama))
+    }
   }
 
   const get_divisies = async () => {
@@ -39,7 +42,7 @@
         accessKey = GetCookie("accesskey");
         // console.log(accessKey)
         const response = await fetch(
-                    "http://localhost:8000/api/api/v1/divisi/get_divisies",
+                    "https://be.ekagroup.co/api/api/v1/divisi/get_divisies",
                     {
                     method: "GET",
                     headers: {
@@ -70,7 +73,7 @@
     const get_karyawans = async ()=>{    
       
       accessKey = GetCookie('accesskey')
-        const response = await fetch('http://localhost:8000/api/api/v1/karyawan/get_karyawans',
+        const response = await fetch('https://be.ekagroup.co/api/api/v1/karyawan/get_karyawans',
         {
               method: "POST",
               headers: {

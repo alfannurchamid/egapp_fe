@@ -31,7 +31,7 @@ export const Portal = (
     // jika akses = 3
     case 3:
       console.log("masuk ke 3");
-      goto("/" + id_karyawan + "/dashboard_divisi/" + divisi);
+      goto("/" + id_karyawan + "/dashboard_direksi/");
       break;
 
     // setelah masuk ke  dashboard, akan ada tombol ke dasb hrga

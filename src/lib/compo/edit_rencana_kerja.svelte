@@ -35,7 +35,7 @@
         //  var deskripsi = textatea.value
 
          const response = await fetch(
-			"http://localhost:8000/api/api/v1/rencana_kerja/update_rencana_kerja",
+			"https://be.ekagroup.co/api/api/v1/rencana_kerja/update_rencana_kerja",
 			{
                method: "POST",
                headers: {
@@ -65,7 +65,7 @@
 </script>
 
 
-<div  transition:fly={{ delay: 250, duration: 700, x: 0, y: 900, opacity: 0.5, easing: quintOut }} id="popeditrk" class=" fixed form_pop flex left-0  w-screen h-screen flex-col  items-center pt-20 top-0 z-40 ">
+<div  transition:fly={{ delay: 250, duration: 700, x: 0, y: 900, opacity: 0.5, easing: quintOut }} id="popeditrk" class="  fixed w-screen h-screen max-h-screen overflow-y-scroll  form_pop flex left-0   flex-col  items-center pt-20 top-0 z-40 ">
    
    <div class=" w-80 h-10  flex justify-end items-end">
       <div class=" w-5 h-5 bg-black aux-container  bg-opacity-40  "></div>

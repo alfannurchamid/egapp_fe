@@ -23,7 +23,7 @@
         accessKey = GetCookie("accesskey");
         // console.log(accessKey)
         const response = await fetch(
-                    "http://localhost:8000/api/api/v1/divisi/get_divisies",
+                    "https://be.ekagroup.co/api/api/v1/divisi/get_divisies",
                     {
                     method: "GET",
                     headers: {
@@ -42,12 +42,10 @@
     onMount(async () => { 
         await Falidate()
         console.log("lolos valliadte di dasb direlsi")
-        if($user.access !== 4){
+        if(!($user.access == 4 || $user.access == 3)){
             logout()
-        }else{
-            console.log("access 4");
         }
-		console.log("lolos logout");
+
         await get_divisies()
         await loadinge(false);
 

@@ -21,7 +21,7 @@
     
     const get_catatan = async ()=>{
         accessKey = GetCookie('accesskey')
-        const response = await fetch('http://localhost:8000/api/api/v1/catatan_tugas/get_catatan_tugases',
+        const response = await fetch('https://be.ekagroup.co/api/api/v1/catatan_tugas/get_catatan_tugases',
         {
             method: "POST",
               headers: {
@@ -43,7 +43,7 @@
     const get_tugas = async ()=>{
         console.log("Cekkkk")
         accessKey = GetCookie('accesskey')
-        const response = await fetch('http://localhost:8000/api/api/v1/tugas/get_tugas',
+        const response = await fetch('https://be.ekagroup.co/api/api/v1/tugas/get_tugas',
             {
               method: "POST",
               headers: {

@@ -70,7 +70,7 @@
         // console.log("aaass")
 		loadinge(true);
 		const getuser = await fetch(
-			"http://localhost:8000/api/api/v1/auth/login",
+			"https://be.ekagroup.co/api/api/v1/auth/login",
 			{
 				method: "POST",
 				headers: {
@@ -98,7 +98,7 @@
 			await SetCookie("refreshkey", refreshKey, 3600000 * 24);
 
 			const response = await fetch(
-				"http://localhost:8000/api/api/v1/auth/get_profile",
+				"https://be.ekagroup.co/api/api/v1/auth/get_profile",
 				{
 					headers: {
 						"Content-Type": "application/json",
@@ -152,7 +152,7 @@
     
       
          <div class="w-full flex flex-col my-1 ">
-             <label for="nik" class=" text-xs" >Nik</label>
+             <label for="nik" class=" text-xs" >Username</label>
              <input bind:value={username} id="username" placeholder="Contoh: rojul" class=" placeholder:text-gray-300  px-3 placeholder:text-sm  my-1 h-9 rounded-lg border border-collapse border-gray-300 focus:border-gray-700 focus:border "  type="text">
             <p id="alert_username" class="text-xs text-red-400 hidden">username harus diisi</p>
             

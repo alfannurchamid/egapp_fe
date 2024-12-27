@@ -31,7 +31,7 @@
  const get_renkers = async ()=>{
   // @ts-ignore
   accessKey =  GetCookie('accesskey')
-    const response = await fetch('http://localhost:8000/api/api/v1/rencana_kerja/get_rencana_kerjas',
+    const response = await fetch('https://be.ekagroup.co/api/api/v1/rencana_kerja/get_rencana_kerjas',
     {
           method: "POST",
 					headers: {
@@ -56,7 +56,7 @@
  const get_target = async ()=>{
   // @ts-ignore
   accessKey =  GetCookie('accesskey')
-    const response = await fetch('http://localhost:8000/api/api/v1/target/get_target',
+    const response = await fetch('https://be.ekagroup.co/api/api/v1/target/get_target',
     {
           method: "POST",
 					headers: {

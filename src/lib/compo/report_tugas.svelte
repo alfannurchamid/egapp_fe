@@ -8,6 +8,8 @@
         import { blur, fly } from "svelte/transition";
         import { slide } from "svelte/transition";
         import { circInOut } from "svelte/easing";
+        import { user } from "$lib/stores/userLogin"; 
+
         
         import { currentOpenCatatan, currentOpenReport } from "$lib/stores/openPopTugas";
         import DownloadFile from "./download_file.svelte";
@@ -16,7 +18,7 @@
        let tambah_open = false
        let rotate = 0
 
-       let access_user = 1
+       let access_user = $user.access
     
        let catatan_baru = ''
        export let tugas
@@ -43,7 +45,7 @@
 
         accessKey =  GetCookie('accesskey')
         const response = await fetch(
-            "http://localhost:8000/api/api/v1/tugas/update_tugas",
+            "https://be.ekagroup.co/api/api/v1/tugas/update_tugas",
             {
                     method: "POST",
                     headers: {
@@ -76,7 +78,7 @@
             const request = new XMLHttpRequest();
             request.open(
                 "POST",
-                "http://localhost:8000/api/api/v1/tugas/upload_file_tugas"
+                "https://be.ekagroup.co/api/api/v1/tugas/upload_file_tugas"
             );
             request.send(data);
             request.onreadystatechange = await function () {
@@ -97,7 +99,7 @@
             Falidate()
             accessKey =  GetCookie('accesskey')
             const response = await fetch(
-                "http://localhost:8000/api/api/v1/divisi/report?file="+tugas.file_name+"&type=tugas",
+                "https://be.ekagroup.co/api/api/v1/divisi/report?file="+tugas.file_name+"&type=tugas",
             {
                     method: "GET",
                     headers: {
@@ -112,9 +114,10 @@
         window.location.assign(file);
         });
         
-        if(response.ok){
-        alert("oke")
-        }
+        loadinge(false)
+        if(!response.ok){
+            alert("gagal mengunduh file")
+            }
         };
 
 

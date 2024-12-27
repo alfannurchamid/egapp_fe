@@ -23,7 +23,7 @@
       //   status report 0 = belum acc 1 , 1 = belum acc 2 , 2 = acc 2, 3 = dilaksanakan , 4 = uploaded (pengajuan selesai)  ,5 tolak revisi  6 = tolak selesai , 7 terima selesai,
      let status_report = target.status
     //  status_report = 2
-     let access_user = 4
+     let access_user = $user.access
 
      let report_files;
 
@@ -46,7 +46,7 @@
 
        accessKey =  GetCookie('accesskey')
        const response = await fetch(
-          "http://localhost:8000/api/api/v1/target/update_target",
+          "https://be.ekagroup.co/api/api/v1/target/update_target",
           {
                   method: "POST",
                   headers: {
@@ -79,7 +79,7 @@
             const request = new XMLHttpRequest();
             request.open(
               "POST",
-              "http://localhost:8000/api/api/v1/target/upload_file_target"
+              "https://be.ekagroup.co/api/api/v1/target/upload_file_target"
             );
             request.send(data);
             request.onreadystatechange = function () {
@@ -101,7 +101,7 @@
           // Falidate()
           accessKey =  GetCookie('accesskey')
             const response = await fetch(
-              "http://localhost:8000/api/api/v1/divisi/report?file="+target.file_name+"&type=target",
+              "https://be.ekagroup.co/api/api/v1/divisi/report?file="+target.file_name+"&type=target",
           {
                   method: "GET",
                   headers: {
@@ -116,9 +116,10 @@
         window.location.assign(file);
       });
        
-       if(response.ok){
-        alert("oke")
-       }
+      loadinge(false)
+      if(!response.ok){
+       alert("gagal mengunduh file")
+     }
       };
 
       
@@ -150,24 +151,29 @@
                 {:else if status_report == 3 || status_report == 5}
                   {#if status_report == 5} <h3 class=" mb-3 bg-yellow-300 text-black p-1 px-3">Pelaksanaan ditolak dan anda harus merevisi!</h3> {/if}
                   <!-- form upload report -->
-                  <h3 class="mb-2">Upload File Report Rencana Kerja</h3>
+                  <h3 class="mb-2">Upload File Report Target</h3>
                   <label for="file_report" class=" w-32 h-28 bg-white flex justify-center items-center rounded-2xl"> <Plus ukuran='w-20 h-20' warna='stroke-gray-700 '></Plus></label>
                   <input bind:files={report_files} type="file" name="file_report" id='file_report' class=" hidden" />
                   <button type="submit" on:click={()=>{upload_file_report()}} disabled={ report_files == null } class=" BtnSubmit w-32 mt-3 h-10 ">simpan</button>
                 {:else if status_report == 4}
                   <h3 class=" text-center mb-3">Anda telah mengunggah file report , silahkan tunggu review dari Audit</h3>
                   <button on:click={()=>{download_file_report()}} class=" w-60 h-10 bg-cyan-400  rounded-lg flex justify-around text-base items-center"> <h5 class=" border-r border-white px-5">download file</h5> <DownloadFile ukuran='w-8 h-8'></DownloadFile></button>
-                {/if}   
+                {:else if status_report == 6}
+                  <h3>tugas telah selesai dan mencapai target</h3>
+                {:else if status_report == 7}
+                  <h3>tugas telah selesai dan tidak mencapai target</h3>
+
+                  {/if}   
               {:else if access_user == 3}
                     <!-- jika access audit -->
                     {#if status_report == 0}
-                      <h3> Manager Mengajukan Rencana Kerja</h3>
+                      <h3> direksi membuat target</h3>
                       <div class=" w-full flex text-xxs justify-around mt-8">
                         <button on:click={()=>{update_capaian('status',1)}} class=" Btn bg-green-500 p-2 w-32 my-1"> terima </button>
                         <button on:click={()=>{update_capaian('status',0)}} class=" Btn bg-red-500 p-2 w-32 my-1"> tolak </button>
                       </div>
                     {:else if status_report < 4}
-                      <h3 class=" text-center">anda telah menerima pengajuan rencana kerja ini, silahkan tunggu pelaksan</h3>
+                      <h3 class=" text-center">menunggu manager menyelesaikan tuugas</h3>
                     {:else if status_report == 4}
                       <!-- aksi setelah report -->
                         <h3 class=" text-center mb-3">Manager telah mengunggah file report , silahkan review dari Audit</h3>
@@ -194,20 +200,15 @@
               {:else if access_user == 4}
                     <!-- jika access audit -->
                     {#if status_report ==0}
-                      <h3 class=" text-center">menunggu audit mmeneyetujui</h3>
-                    {:else if status_report == 1}
-                      <h3> Manager Mengajukan Rencana Kerja dan audit telah menyuetujui</h3>
-                      <div class=" w-full flex text-xxs justify-around mt-8">
-                        <button on:click={()=>{update_capaian('status',2)}} class=" Btn bg-green-500 p-2 w-32 my-1"> terima </button>
-                        <button on:click={()=>{update_capaian('status',0)}} class=" Btn bg-red-500 p-2 w-32 my-1"> tolak </button>
-                      </div>
-                      {:else if status_report == 4}
+                      <h3 class=" text-center">menunggu audit mmeneyetujui YEs</h3>
+                    {:else if status_report == 2}
+                    <h3 class=" text-center">menunggu manager melaksanakan tugas</h3>
+
+                    {:else if status_report == 4}
                       <!-- aksi setelah report -->
-                        <h3 class=" text-center mb-3">Manager telah mengunggah file report , silahkan review dari Audit</h3>
+                        <h3 class=" text-center mb-3">Manager telah mengunggah file report , silahkan review dari direksi</h3>
                         <button on:click={()=>{download_file_report()}}   class=" w-60 h-10 bg-cyan-400  rounded-lg flex justify-around text-base items-center"> <h5 class=" border-r border-white px-5">download file x</h5> <DownloadFile ukuran='w-8 h-8'></DownloadFile></button>
                        
-                    {:else if status_report < 5}
-                      <h3 class=" text-center">anda telah menerima pengajuan rencana kerja ini, silahkan tunggu pelaksan</h3>
                     {:else if status_report == 5}
                       <h3>Manager sedang merevisi pekerjaan, silahkan tunggu manager menyelesaikan tugas</h3>
                     {:else if status_report == 6}

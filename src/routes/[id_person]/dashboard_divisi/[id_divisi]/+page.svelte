@@ -13,6 +13,7 @@
   import TambahTarget from "$lib/compo/tambah_target.svelte";
   import { page } from "$app/stores";
   import EditRencanaKerja from "$lib/compo/edit_rencana_kerja.svelte";
+  import { user } from "$lib/stores/userLogin";
 
 
 
@@ -32,7 +33,7 @@ const get_data_divisi =  async()=>{
   // @ts-ignore
   accessKey = GetCookie('accesskey')
   const response = await fetch(
-					"http://localhost:8000/api/api/v1/divisi/get_divisi",
+					"https://be.ekagroup.co/api/api/v1/divisi/get_divisi",
 					{
           method: "POST",
 					headers: {
@@ -57,7 +58,7 @@ const get_data_targets = async()=>{
   // @ts-ignore
   accessKey = GetCookie('accesskey')
   const response = await fetch(
-					"http://localhost:8000/api/api/v1/target/get_targets",
+					"https://be.ekagroup.co/api/api/v1/target/get_targets",
 					{
           method: "POST",
 					headers: {
@@ -80,7 +81,7 @@ const get_data_targets = async()=>{
   const get_renkers = async ()=>{
   // @ts-ignore
   accessKey = GetCookie('accesskey')
-    const response = await fetch('http://localhost:8000/api/api/v1/rencana_kerja/get_rencana_kerjas',
+    const response = await fetch('https://be.ekagroup.co/api/api/v1/rencana_kerja/get_rencana_kerjas',
     {
           method: "POST",
 					headers: {
@@ -105,7 +106,7 @@ const get_data_targets = async()=>{
  const get_karyawans = async ()=>{    
   // @ts-ignore
   accessKey = GetCookie('accesskey')
-    const response = await fetch('http://localhost:8000/api/api/v1/karyawan/get_karyawans',
+    const response = await fetch('https://be.ekagroup.co/api/api/v1/karyawan/get_karyawans',
     {
           method: "POST",
 					headers: {
@@ -255,9 +256,10 @@ onMount(async () => {
 
 </div>
 
+{#if $user.access == 4}
 <!-- svelte-ignore missing-declaration -->
 <button on:click={()=>{ currentOpenUpTambahTarget(true)}} class=" fixed w-10 h-10 bg-red-400 rounded-full bottom-2 right-2"><Plus ukuran='w-10 h-10' warna='stroke-white'></Plus></button>
-
+{/if}
 {#if $open_pop_up_tambah_target}
 <TambahTarget></TambahTarget>
 {/if}

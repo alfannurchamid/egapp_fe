@@ -159,7 +159,7 @@
         //  var deskripsi = textatea.value
 
          const response = await fetch(
-			"http://localhost:8000/api/api/v1/tugas/update_tugas",
+			"https://be.ekagroup.co/api/api/v1/tugas/update_tugas",
 			{
                method: "POST",
                headers: {
@@ -188,7 +188,7 @@
 
 </script>
 
-<div transition:fly={{ delay: 250, duration: 700, x: 0, y: 900, opacity: 0.5, easing: quintOut }} id="popaddrk" class=" flex fixed w-screen min-h-screen flex-col pb-20   items-center pt-20 top-0 right-0 z-40  ">
+<div transition:fly={{ delay: 250, duration: 700, x: 0, y: 900, opacity: 0.5, easing: quintOut }} id="popaddrk" class=" flex  fixed w-screen h-screen max-h-screen overflow-y-scroll  min-h-screen flex-col pb-20   items-center pt-20 top-0 right-0 z-40  ">
     <div class=" w-80 h-10  flex justify-end items-end">
         <div class=" w-5 h-5 bg-black aux-container  bg-opacity-40  "></div>
         <div class=" h-10 w-10 bg-black rounded-t-2xl  bg-opacity-40 flex justify-center items-end">

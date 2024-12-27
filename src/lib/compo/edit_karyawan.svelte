@@ -65,7 +65,7 @@ let  access = karyawan.access
          accessKey =  GetCookie('accesskey')
 
          const response = await fetch(
-			"http://localhost:8000/api/api/v1/karyawan/edit_karyawan",
+			"https://be.ekagroup.co/api/api/v1/karyawan/edit_karyawan",
 			{
                method: "POST",
                headers: {
@@ -105,7 +105,7 @@ let  access = karyawan.access
 
     })
 </script>
-<div transition:fly={{ delay: 250, duration: 700, x: 0, y: 900, opacity: 0.5, easing: quintOut }} id="popaddrk" class=" flex fixed w-screen min-h-screen flex-col pb-20  items-center pt-20 top-0 z-30 backdrop-blur-xl backdrop-brightness-100  bg-gray-200 bg-opacity-5">
+<div transition:fly={{ delay: 250, duration: 700, x: 0, y: 900, opacity: 0.5, easing: quintOut }} id="popaddrk" class=" flex fixed w-screen h-screen max-h-screen overflow-y-scroll flex-col pb-20  items-center pt-20 top-0 z-30 backdrop-blur-xl backdrop-brightness-100  bg-gray-200 bg-opacity-5">
   <div class=" w-80 h-10  flex justify-end items-end">
     <div class=" w-5 h-5 bg-black aux-container  bg-opacity-40  "></div>
     <button on:click={()=>{value_change('access',"-1"), post_edit_karyawan()}} class=" h-10 w-10 bg-black rounded-t-2xl  bg-opacity-40 flex justify-center items-end">

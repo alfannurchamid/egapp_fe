@@ -12,6 +12,7 @@
   import { open_pop_tg, currentOpenTambahTugas, currentPelaksanaRow } from "$lib/stores/openPopTugas"
 
   import Plus from "$lib/svg/plus.svelte";
+  import { user } from "$lib/stores/userLogin";
 
 
 
@@ -26,7 +27,7 @@
   const get_tugases = async ()=>{
         console.log("Cekkkk")
         accessKey = GetCookie('accesskey')
-        const response = await fetch('http://localhost:8000/api/api/v1/tugas/get_tugases',
+        const response = await fetch('https://be.ekagroup.co/api/api/v1/tugas/get_tugases',
             {
               method: "POST",
               headers: {
@@ -34,7 +35,7 @@
                   Authorization: "Bearer "+accessKey ,
                 },
                 body : JSON.stringify({
-                  id_karyawan :  parseInt($page.params.id_person),
+                  id_karyawan :  $user.id_karyawan,
                   bebas : 0
                 }),
                 credentials: "include",
@@ -50,7 +51,7 @@
 
   const get_renkers = async ()=>{
     accessKey = GetCookie('accesskey')
-    const response = await fetch('http://localhost:8000/api/api/v1/rencana_kerja/get_rencana_kerjas',
+    const response = await fetch('https://be.ekagroup.co/api/api/v1/rencana_kerja/get_rencana_kerjas',
     {
           method: "POST",
 					headers: {
