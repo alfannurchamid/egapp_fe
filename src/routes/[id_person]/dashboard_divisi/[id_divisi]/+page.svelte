@@ -14,6 +14,7 @@
   import TambahTarget from "$lib/compo/tambah_target.svelte";
   import { page } from "$app/stores";
   import EditRencanaKerja from "$lib/compo/edit_rencana_kerja.svelte";
+  import { user } from "$lib/stores/userLogin";
 
   import { breadcrumbs } from "$lib/stores/breadcrumb";
 
@@ -272,15 +273,16 @@
   </div>
 </div>
 
-<!-- svelte-ignore missing-declaration -->
-<button
-  on:click={() => {
-    currentOpenUpTambahTarget(true);
-  }}
-  class=" fixed w-10 h-10 bg-red-400 rounded-full bottom-2 right-2"
-  ><Plus ukuran="w-10 h-10" warna="stroke-white"></Plus></button
->
-
+{#if $user.access == 4}
+  <!-- svelte-ignore missing-declaration -->
+  <button
+    on:click={() => {
+      currentOpenUpTambahTarget(true);
+    }}
+    class=" fixed w-10 h-10 bg-red-400 rounded-full bottom-2 right-2"
+    ><Plus ukuran="w-10 h-10" warna="stroke-white"></Plus></button
+  >
+{/if}
 {#if $open_pop_up_tambah_target}
   <TambahTarget></TambahTarget>
 {/if}

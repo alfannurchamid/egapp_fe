@@ -68,7 +68,7 @@
     easing: quintOut,
   }}
   id="popaddrk"
-  class=" flex absolute w-screen h-screen flex-col items-center pt-20 top-0 z-30 backdrop-blur-xl backdrop-brightness-100 bg-gray-200 bg-opacity-5"
+  class=" flex fixed w-screen h-screen max-h-screen overflow-y-scroll flex-col items-center pt-20 top-0 z-30 backdrop-blur-xl backdrop-brightness-100 bg-gray-200 bg-opacity-5"
 >
   <div class="w-80 flex bg-black rounded-3xl p-5 bg-opacity-30 flex-col">
     <h4 class=" text-white text-center w-full">Tambah Target</h4>

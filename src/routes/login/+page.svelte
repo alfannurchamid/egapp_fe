@@ -125,63 +125,45 @@
       const errore = await getuser.json();
       const erore = errore.detail;
 
-      console.log(" ereoorr");
-      console.log(erore);
-      // const targetHtml = document.getElementById("error");
-      // targetHtml?.classList.remove("hidden");
-      // setTimeout(() => {
-      // 	targetHtml?.classList.add("hidden");
-      // }, 5000);
-      // targetHtml.innerHTML = erore;
-    }
-  };
+			console.log(" ereoorr");
+			console.log(erore);
+            alert(erore)
+
+			// const targetHtml = document.getElementById("error");
+			// targetHtml?.classList.remove("hidden");
+			// setTimeout(() => {
+			// 	targetHtml?.classList.add("hidden");
+			// }, 5000);
+			// targetHtml.innerHTML = erore;
+		}
+	};
+
 </script>
 
 <div class="  flex flex-col items-center justify-center p-5 bg-gray-100">
-  <img class=" w-28 mt-5 mb-10" src={logo} alt="logo" />
-  <div
-    class=" p-5 text-gray-700 max-w-96 flex container rounded-lg drop-shadow-lg justify-center flex-col items-center bg-white"
-  >
-    <h1 class=" text-lg font-semibold mb-3">Masuk ke Task Managemet</h1>
-    <form class=" w-full" on:submit={() => submited()}>
-      <div class="w-full flex flex-col my-1">
-        <label for="nik" class=" text-xs">Nik</label>
-        <input
-          bind:value={username}
-          id="username"
-          placeholder="Contoh: rojul"
-          class=" placeholder:text-gray-300 px-3 placeholder:text-sm my-1 h-9 rounded-lg border border-collapse border-gray-300 focus:border-gray-700 focus:border"
-          type="text"
-        />
-        <p id="alert_username" class="text-xs text-red-400 hidden">
-          username harus diisi
-        </p>
-      </div>
-      <div class="w-full flex flex-col my-1">
-        <label for="sandi" class=" text-xs">Kata Sandi</label>
-        <input
-          id="inpSandi"
-          on:keyup={() => {
-            CekSandi();
-          }}
-          bind:value={password}
-          placeholder="Contoh: Sandi123!"
-          class=" placeholder:text-gray-300 px-3 placeholder:text-sm my-1 h-9 rounded-lg border border-collapse border-gray-300 focus:border-gray-700"
-          type="password"
-        />
-        <p id="alert_sandi" class="text-xs text-red-400 hidden">
-          username harus diisi
-        </p>
 
-        <!-- svelte-ignore a11y-click-events-have-key-events -->
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <div
-          on:click={() => {
-            TampilkanSandi();
-          }}
-          class="text-xs self-end mr-3"
-        >
-          tampilkan sandi
+    <img class=" w-28 mt-5 mb-10" src="{logo}" alt="logo">
+    <div class=" p-5 text-gray-700 max-w-96 flex container rounded-lg drop-shadow-lg justify-center flex-col items-center bg-white"> 
+        <h1 class=" text-lg font-semibold mb-3 ">Masuk ke Task Managemet </h1>
+       <form class=" w-full" on:submit={()=>(submited())}  >
+
+    
+      
+         <div class="w-full flex flex-col my-1 ">
+             <label for="nik" class=" text-xs" >Username</label>
+             <input bind:value={username} id="username" placeholder="Contoh: rojul" class=" placeholder:text-gray-300  px-3 placeholder:text-sm  my-1 h-9 rounded-lg border border-collapse border-gray-300 focus:border-gray-700 focus:border "  type="text">
+            <p id="alert_username" class="text-xs text-red-400 hidden">username harus diisi</p>
+            
+            </div>
+        <div class="w-full flex flex-col my-1 ">
+            <label for="sandi" class=" text-xs" >Kata Sandi</label>
+            <input id="inpSandi" on:keyup={()=>{CekSandi()}} bind:value={password}   placeholder="Contoh: Sandi123!" class=" placeholder:text-gray-300  px-3 placeholder:text-sm  my-1 h-9 rounded-lg border border-collapse border-gray-300 focus:border-gray-700"  type="password">
+            <p id="alert_sandi" class="text-xs text-red-400 hidden">username harus diisi</p>
+            
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <div on:click={()=>{TampilkanSandi()}} class="text-xs self-end mr-3">tampilkan sandi</div>
+
         </div>
       </div>
       <label

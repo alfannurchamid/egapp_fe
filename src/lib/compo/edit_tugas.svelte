@@ -34,7 +34,11 @@
   export let tugas;
   export let karyawans;
 
-  let staff_sekarang = karyawans.slice();
+  let staff_sekarang = [];
+
+  if (karyawans) {
+    karyawans.slice();
+  }
 
   /**
    * @type {any[]}
@@ -186,7 +190,7 @@
     easing: quintOut,
   }}
   id="popaddrk"
-  class=" flex fixed w-screen min-h-screen flex-col pb-20 items-center pt-20 top-0 right-0 z-40"
+  class=" flex fixed w-screen h-screen max-h-screen overflow-y-scroll min-h-screen flex-col pb-20 items-center pt-20 top-0 right-0 z-40"
 >
   <div class=" w-80 h-10 flex justify-end items-end">
     <div class=" w-5 h-5 bg-black aux-container bg-opacity-40"></div>
@@ -248,47 +252,51 @@
       }}
     />
 
-    <label for="pelaksana" class=" text-sm text-white mb-1">pelaksanaan </label>
+    {#if karyawans}
+      <label for="pelaksana" class=" text-sm text-white mb-1"
+        >pelaksanaan
+      </label>
 
-    <div class=" bg-white py-2 rounded-lg px-2 mb-4 cursor-pointer">
-      <button
-        on:click={() => {
-          opDdStaff = !opDdStaff;
-        }}
-        class=" w-full flex justify-between items-center px-2"
-      >
-        <label for="">{staf_terpilih_value}</label>
-        {#if opDdStaff}
-          <div class="rotate-180">
-            <Dropdown kelas="w-8 h-8"></Dropdown>
-          </div>
-        {:else}
-          <Dropdown kelas="w-8 h-8"></Dropdown>
-        {/if}
-      </button>
-      {#if opDdStaff}
-        <div
-          transition:slide={{
-            delay: 250,
-            duration: 300,
-            easing: circInOut,
-            axis: "y",
+      <div class=" bg-white py-2 rounded-lg px-2 mb-4 cursor-pointer">
+        <button
+          on:click={() => {
+            opDdStaff = !opDdStaff;
           }}
-          id="dropdownstaff"
-          class=" duration-700 w-full flex-col text-gray-500 flex overflow-hidden"
+          class=" w-full flex justify-between items-center px-2"
         >
-          {#each staff_sekarang as stafff}
-            <button
-              on:click={updateStaffPilih(stafff.id_karyawan)}
-              id={stafff.id_karyawan}
-              class=" {stafff.id_karyawan} p-1 px-5 border-b flex justify-between {stafff.atribute}  "
-              >{stafff.nama}
-              <Check kelas="w-5 h-5  " kelas2="stroke-2 "></Check></button
-            >
-          {/each}
-        </div>
-      {/if}
-    </div>
+          <label for="">{staf_terpilih_value}</label>
+          {#if opDdStaff}
+            <div class="rotate-180">
+              <Dropdown kelas="w-8 h-8"></Dropdown>
+            </div>
+          {:else}
+            <Dropdown kelas="w-8 h-8"></Dropdown>
+          {/if}
+        </button>
+        {#if opDdStaff}
+          <div
+            transition:slide={{
+              delay: 250,
+              duration: 300,
+              easing: circInOut,
+              axis: "y",
+            }}
+            id="dropdownstaff"
+            class=" duration-700 w-full flex-col text-gray-500 flex overflow-hidden"
+          >
+            {#each staff_sekarang as stafff}
+              <button
+                on:click={updateStaffPilih(stafff.id_karyawan)}
+                id={stafff.id_karyawan}
+                class=" {stafff.id_karyawan} p-1 px-5 border-b flex justify-between {stafff.atribute}  "
+                >{stafff.nama}
+                <Check kelas="w-5 h-5  " kelas2="stroke-2 "></Check></button
+              >
+            {/each}
+          </div>
+        {/if}
+      </div>
+    {/if}
 
     <div class=" mt-5 grid grid-cols-2 grid-rows-1 gap-3">
       <!-- svelte-ignore a11y-click-events-have-key-events -->

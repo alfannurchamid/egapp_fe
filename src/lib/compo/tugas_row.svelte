@@ -6,6 +6,7 @@
   import Person from "$lib/svg/person.svelte";
   import Work from "$lib/svg/work.svelte";
   import EditTugas from "./edit_tugas.svelte";
+  import { page } from "$app/stores";
 
   export let tugas;
   export let karyawans;
@@ -19,7 +20,11 @@
   import { goto } from "$app/navigation";
 
 const portal = ()=>{
-goto('../tugas/'+tugas.id_tugas)
+    if($page.route.id.includes("dashboard_staff")){
+        goto('../../tugas/'+tugas.id_tugas)
+    }else{
+        goto('../tugas/'+tugas.id_tugas)
+    }
 }
   
 </script>

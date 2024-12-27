@@ -8,6 +8,7 @@
   import { blur, fly } from "svelte/transition";
   import { slide } from "svelte/transition";
   import { circInOut } from "svelte/easing";
+  import { user } from "$lib/stores/userLogin";
 
   import {
     currentOpenCatatan,
@@ -18,7 +19,7 @@
   let tambah_open = false;
   let rotate = 0;
 
-  let access_user = 1;
+  let access_user = $user.access;
 
   let catatan_baru = "";
   export let tugas;
@@ -45,7 +46,7 @@
 
     accessKey = GetCookie("accesskey");
     const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/tugas/update_tugas`,
+      "https://be.ekagroup.co/api/api/v1/tugas/update_tugas",
       {
         method: "POST",
         headers: {
@@ -84,7 +85,7 @@
       const request = new XMLHttpRequest();
       request.open(
         "POST",
-        `${import.meta.env.VITE_API_BASE_URL}/tugas/upload_file_tugas`
+        "https://be.ekagroup.co/api/api/v1/tugas/upload_file_tugas"
       );
       request.send(data);
       request.onreadystatechange = await function () {
@@ -105,7 +106,7 @@
     Falidate();
     accessKey = GetCookie("accesskey");
     const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/divisi/report?file=` +
+      "https://be.ekagroup.co/api/api/v1/divisi/report?file=" +
         tugas.file_name +
         "&type=tugas",
       {
@@ -123,8 +124,9 @@
         window.location.assign(file);
       });
 
-    if (response.ok) {
-      alert("oke");
+    loadinge(false);
+    if (!response.ok) {
+      alert("gagal mengunduh file");
     }
   };
 </script>

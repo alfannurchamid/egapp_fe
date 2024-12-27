@@ -23,8 +23,8 @@
   export let renker;
 
   //   2 =belumm dilaksanakan , 3 = dilaksanakan , 4 = uploaded (pengajuan selesai)  ,5 tolak revisi  6 = tolak selesai , 7 terima selesai,
-  let status_report = 3;
-  let access_user = 2;
+  let status_report = renker.status;
+  let access_user = $user.access;
 
   let report_files;
 
@@ -44,10 +44,11 @@
     loadinge(true);
     Falidate();
     values_to_update[key] = value;
+    values_to_update["id_divisi"] = renker.id_divisi;
 
     accessKey = GetCookie("accesskey");
     const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/rencana_kerja/update_rencana_kerja`,
+      "https://be.ekagroup.co/api/api/v1/rencana_kerja/update_rencana_kerja",
       {
         method: "POST",
         headers: {
@@ -86,7 +87,7 @@
       const request = new XMLHttpRequest();
       request.open(
         "POST",
-        `${import.meta.env.VITE_API_BASE_URL}/rencana_kerja/upload_file_rencana_kerja`
+        "https://be.ekagroup.co/api/api/v1/rencana_kerja/upload_file_rencana_kerja"
       );
       request.send(data);
       request.onreadystatechange = function () {
@@ -106,9 +107,9 @@
     Falidate();
     accessKey = GetCookie("accesskey");
     const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/divisi/report?file=" +
+      "https://be.ekagroup.co/api/api/v1/divisi/report?file=" +
         renker.file_name +
-        "&type=rencana_kerja`,
+        "&type=rencana_kerja",
       {
         method: "GET",
         headers: {
@@ -124,8 +125,9 @@
         window.location.assign(file);
       });
 
-    if (response.ok) {
-      alert("oke");
+    loadinge(false);
+    if (!response.ok) {
+      alert("gagal mengunduh file");
     }
   };
 </script>
@@ -167,11 +169,17 @@
       <p class=" pb-2 mb-4 text-white border-b border-white">
         KPI : {renker.kpi}
       </p>
-      {#if status_report < 2}
-        <h3>menunggu Acc dari Direksi</h3>
-      {:else if access_user == 2}
+
+      {#if access_user == 2}
         <!-- jika access manager -->
-        {#if status_report == 2}
+        {#if status_report == 0}
+          <h3>
+            Anda telah Mengajukan Rencana Kerja, tunggu acc dari audit dan
+            direksi
+          </h3>
+        {:else if status_report == 1}
+          <h3>Anda telah Mengajukan Rencana Kerja, tunggu acc dari direksi</h3>
+        {:else if status_report == 2}
           <button
             on:click={() => {
               update_capaian("status", 3);
@@ -221,6 +229,10 @@
             <h5 class=" border-r border-white px-5">download file</h5>
             <DownloadFile ukuran="w-8 h-8"></DownloadFile></button
           >
+        {:else if status_report == 6}
+          <h3>tugas telah selesai dan mencapai target</h3>
+        {:else if status_report == 7}
+          <h3>tugas telah selesai dan tidak mencapai target</h3>
         {/if}
       {:else if access_user == 3}
         <!-- jika access audit -->

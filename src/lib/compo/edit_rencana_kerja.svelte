@@ -37,23 +37,23 @@
     //  var textatea = document.getElementById("deskripsi")
     //  var deskripsi = textatea.value
 
-    const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/rencana_kerja/update_rencana_kerja`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + accessKey,
-        },
-        credentials: "include",
-        body: JSON.stringify(values_to_update),
-      }
-    );
-    if (response.ok) {
-      await alert("berhasil update rencana kerja");
-      location.reload();
-    } else {
-      alert("terjadi kesalahan");
+         const response = await fetch(
+			"https://be.ekagroup.co/api/api/v1/rencana_kerja/update_rencana_kerja",
+			{
+               method: "POST",
+               headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + accessKey,
+               },
+               credentials: "include",
+               body: JSON.stringify( values_to_update),
+       }
+         );
+         if(response.ok){
+           await alert("berhasil update rencana kerja")
+           location.reload()
+         }else{alert("terjadi kesalahan")
+      loadinge(false)}
     }
   };
 
@@ -76,7 +76,7 @@
     easing: quintOut,
   }}
   id="popeditrk"
-  class=" fixed form_pop flex left-0 w-screen h-screen flex-col items-center pt-20 top-0 z-40"
+  class="  fixed w-screen h-screen max-h-screen overflow-y-scroll form_pop flex left-0 flex-col items-center pt-20 top-0 z-40"
 >
   <div class=" w-80 h-10 flex justify-end items-end">
     <div class=" w-5 h-5 bg-black aux-container bg-opacity-40"></div>

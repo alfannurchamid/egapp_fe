@@ -101,6 +101,11 @@
       console.log("Token already exists, no need to request permission.");
     }
   }
+  import { onMount } from "svelte";
+
+  onMount(() => {
+    console.log("load header");
+  });
 </script>
 
 <div

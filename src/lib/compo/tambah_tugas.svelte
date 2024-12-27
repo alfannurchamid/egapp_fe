@@ -13,6 +13,8 @@
   import { Falidate } from "$lib/dependedncies/falidate_session_login";
   import { GetCookie } from "$lib/stores/cokies";
   import { onMount } from "svelte";
+  import { each } from "svelte/internal";
+  // import { user } from "$lib/stores/userLogin";
 
   // form pengisian
   let openform = false;
@@ -42,6 +44,9 @@
   let deadline = "";
   let id_renker = parseInt($page.params.id_rk);
   let id_karyawan = "";
+  let id_divisi = "";
+
+  let renkers = [];
 
   const updateStaffPilih = (/** @type {string} */ id_staff) => () => {
     // cek id in staf terpilih
@@ -91,6 +96,7 @@
     //     staf_terpilih_value=''
     // }
   };
+
   const get_karyawans = async () => {
     // @ts-ignore
     if (!renker) {
@@ -98,7 +104,7 @@
     }
     accessKey = GetCookie("accesskey");
     const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/karyawan/get_karyawans`,
+      "https://be.ekagroup.co/api/api/v1/karyawan/get_karyawans",
       {
         method: "POST",
         headers: {
@@ -126,7 +132,7 @@
     var deskripsi = textatea.value;
 
     const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/tugas/add_tugas`,
+      "https://be.ekagroup.co/api/api/v1/tugas/add_tugas",
       {
         method: "POST",
         headers: {
@@ -141,24 +147,57 @@
           start_date,
           deadline,
           id_renker,
-          id_divisi: renker.id_divisi,
+          id_divisi,
           id_karyawan,
         }),
       }
     );
     if (response.ok) {
-      await alert("berhasil menambahkan target");
+      await alert("berhasil menambahkan tugas");
       location.reload();
     } else {
-      const errore = await getuser.json();
+      const errore = await response.json();
       const erore = errore.detail;
       alert("terjadi kesalahan, " + errore.detail);
       loadinge(false);
     }
   };
 
+  const get_renkers = async () => {
+    // @ts-ignore
+    accessKey = GetCookie("accesskey");
+    const response = await fetch(
+      "https://be.ekagroup.co/api/api/v1/rencana_kerja/get_rencana_kerjas",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessKey,
+        },
+        body: JSON.stringify({
+          id_divisi: parseInt($page.params.id_divisi),
+          bebas: 0,
+        }),
+        credentials: "include",
+      }
+    );
+    if (response.ok) {
+      let renker = await response.json();
+      renkers = renker.data;
+    }
+  };
+
+  const pilih_renker = () => {};
+
   onMount(async () => {
-    get_karyawans();
+    if (renker) {
+      await get_karyawans();
+      id_divisi = renker.id_divisi;
+    } else {
+      await get_renkers();
+      id_divisi = $page.params.id_divisi;
+      id_karyawan = $page.params.id_person;
+    }
   });
 </script>
 
@@ -172,13 +211,19 @@
     easing: quintOut,
   }}
   id="popaddrk"
-  class=" flex absolute w-screen min-h-screen flex-col pb-20 items-center pt-20 top-0 z-30 backdrop-blur-xl backdrop-brightness-100 bg-gray-200 bg-opacity-5"
+  class=" flex fixed w-screen h-screen max-h-screen overflow-y-scroll min-h-screen flex-col pb-20 items-center pt-20 top-0 z-30 backdrop-blur-xl backdrop-brightness-100 bg-gray-200 bg-opacity-5"
 >
   <div class="w-80 flex bg-black rounded-3xl p-5 bg-opacity-30 flex-col">
-    <h4 class=" text-white text-center w-full">
-      Tambah Tuugas {renker.id_divisi} | {id_karyawan}
-    </h4>
+    <h4 class=" text-white text-center w-full">Tambah Tugas</h4>
     <form action="" class=" flex flex-col form_pop">
+      {#if !renker}
+        <select class=" h-8 rounded-lg px-2 mb-4" bind:value={id_renker}>
+          {#each renkers as renker_}
+            <option value={renker_.id_renker}>{renker_.judul}</option>
+          {/each}
+        </select>
+      {/if}
+
       <label for="judul" class=" text-sm text-white mb-1">judul</label>
       <input
         name="judul"
@@ -215,54 +260,57 @@
       <label for="deadline" class=" text-sm text-white mb-1">deadline</label>
       <input
         name="deadline"
+        on:change={() => (is_lengkap = false)}
         type="date"
         class=" h-8 rounded-lg px-2 mb-4"
         bind:value={deadline}
       />
 
-      <label for="pelaksana" class=" text-sm text-white mb-1"
-        >pelaksanaan
-      </label>
+      {#if renker}
+        <label for="pelaksana" class=" text-sm text-white mb-1"
+          >pelaksanan
+        </label>
 
-      <div class=" bg-white py-2 rounded-lg px-2 mb-4 cursor-pointer">
-        <button
-          on:click={() => {
-            opDdStaff = !opDdStaff;
-          }}
-          class=" w-full flex justify-between items-center px-2"
-        >
-          <label for="">{staf_terpilih_value}</label>
-          {#if opDdStaff}
-            <div class="rotate-180">
-              <Dropdown kelas="w-8 h-8"></Dropdown>
-            </div>
-          {:else}
-            <Dropdown kelas="w-8 h-8"></Dropdown>
-          {/if}
-        </button>
-        {#if opDdStaff}
-          <div
-            transition:slide={{
-              delay: 250,
-              duration: 300,
-              easing: circInOut,
-              axis: "y",
+        <div class=" bg-white py-2 rounded-lg px-2 mb-4 cursor-pointer">
+          <button
+            on:click={() => {
+              opDdStaff = !opDdStaff;
             }}
-            id="dropdownstaff"
-            class=" duration-700 w-full flex-col text-gray-500 flex overflow-hidden"
+            class=" w-full flex justify-between items-center px-2"
           >
-            {#each karyawans as stafff}
-              <button
-                on:click={updateStaffPilih(stafff.id_karyawan)}
-                id={stafff.id_karyawan}
-                class=" p-1 px-5 border-b flex justify-between"
-                >{stafff.nama}
-                <Check kelas="w-5 h-5  " kelas2="stroke-2 "></Check></button
-              >
-            {/each}
-          </div>
-        {/if}
-      </div>
+            <label for="">{staf_terpilih_value}</label>
+            {#if opDdStaff}
+              <div class="rotate-180">
+                <Dropdown kelas="w-8 h-8"></Dropdown>
+              </div>
+            {:else}
+              <Dropdown kelas="w-8 h-8"></Dropdown>
+            {/if}
+          </button>
+          {#if opDdStaff}
+            <div
+              transition:slide={{
+                delay: 250,
+                duration: 300,
+                easing: circInOut,
+                axis: "y",
+              }}
+              id="dropdownstaff"
+              class=" duration-700 w-full flex-col text-gray-500 flex overflow-hidden"
+            >
+              {#each karyawans as stafff}
+                <button
+                  on:click={updateStaffPilih(stafff.id_karyawan)}
+                  id={stafff.id_karyawan}
+                  class=" p-1 px-5 border-b flex justify-between"
+                  >{stafff.nama}
+                  <Check kelas="w-5 h-5  " kelas2="stroke-2 "></Check></button
+                >
+              {/each}
+            </div>
+          {/if}
+        </div>
+      {/if}
 
       <div class=" mt-5 grid grid-cols-2 grid-rows-1 gap-3">
         <button

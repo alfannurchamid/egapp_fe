@@ -5,7 +5,7 @@ import { GetCookie, logout } from "$lib/stores/cokies";
 import { user, updateUser, resetUser } from "$lib/stores/userLogin";
 
 export const Falidate = async () => {
-  // console.log("masuk falidate");
+  console.log("masuk falidate");
   let accessKey = GetCookie("accesskey");
   let refreshKey = GetCookie("refreshkey");
 

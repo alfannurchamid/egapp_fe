@@ -40,9 +40,11 @@
 
   onMount(async () => {
     await Falidate();
-    if ($user.access !== 4) {
+    console.log("lolos valliadte di dasb direlsi");
+    if (!($user.access == 4 || $user.access == 3)) {
       logout();
     }
+
     await get_divisies();
     await loadinge(false);
 
