@@ -7,20 +7,21 @@
   import { onMount } from "svelte";
   import { SetCookie } from "$lib/stores/cokies";
   import { user } from "$lib/stores/userLogin";
+  import { breadcrumbs } from "$lib/stores/breadcrumb";
+  import { requestNotificationPermission } from "$lib/dependedncies/firebase";
 
   let divisies = [];
+  const idKaryawan = $user.id_karyawan;
 
   const portalLokal = (divisi) => {
     goto("dashboard_divisi/" + divisi.id_divisi + "/");
   };
 
   let accessKey = "";
-  console.log(accessKey);
-  let refreshKey = "";
+  let notificationToken = "";
 
   const get_divisies = async () => {
     accessKey = GetCookie("accesskey");
-    // console.log(accessKey)
     const response = await fetch(
       `${import.meta.env.VITE_API_BASE_URL}/divisi/get_divisies`,
       {
@@ -34,22 +35,95 @@
     );
 
     const content = await response.json();
-    console.log(content);
     divisies = content.data;
   };
 
   onMount(async () => {
     await Falidate();
-    console.log("lolos valliadte di dasb direlsi");
     if ($user.access !== 4) {
       logout();
-    } else {
-      console.log("access 4");
     }
-    console.log("lolos logout");
     await get_divisies();
     await loadinge(false);
+
+    breadcrumbs.set([
+      { label: "Dashboard", href: `/${idKaryawan}/dashboard_direksi` },
+    ]);
+
+    // Check if token exists before requesting notification permission
+    // const tokenExists = await checkNotificationToken();
+    // if (!tokenExists) {
+    //   await getNotificationPermission();
+    // } else {
+    //   console.log("Token already exists, no need to request permission.");
+    // }
   });
+
+  // const checkNotificationToken = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `${import.meta.env.VITE_API_BASE_URL}/notification?id_karyawan=${idKaryawan}`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: "Bearer " + GetCookie("accesskey"),
+  //         },
+  //       }
+  //     );
+
+  //     const result = await response.json();
+  //     return result.exists;
+  //   } catch (error) {
+  //     console.error("Error checking notification token:", error);
+  //     return false;
+  //   }
+  // };
+
+  // const getNotificationPermission = async () => {
+  //   try {
+  //     notificationToken = await requestNotificationPermission();
+  //     console.log("TOKEN FIREBASE:", notificationToken);
+
+  //     if (notificationToken) {
+  //       await saveNotificationToken(notificationToken);
+  //     } else {
+  //       console.error("Failed to retrieve notification token.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error requesting notification permission:", error);
+  //   }
+  // };
+
+  // const saveNotificationToken = async (token) => {
+  //   try {
+  //     const response = await fetch(
+  //       `${import.meta.env.VITE_API_BASE_URL}/notification`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: "Bearer " + GetCookie("accesskey"),
+  //         },
+  //         body: JSON.stringify({
+  //           id_karyawan: idKaryawan,
+  //           token: token,
+  //           status: true,
+  //         }),
+  //       }
+  //     );
+
+  //     const result = await response.json();
+
+  //     if (response.ok) {
+  //       console.log("Notification token saved successfully:", result);
+  //     } else {
+  //       console.error("Failed to save notification token:", result.detail);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error saving notification token:", error);
+  //   }
+  // };
 </script>
 
 <!-- <div  class=" relative w-full h-20 max-w-screen-md overflow-x-scroll mt-20 flex items-center ">
@@ -63,7 +137,7 @@
 
 </div> -->
 
-<div class=" w-full flex flex-col text-sm mt-20 pt-8 bg-gray-50">
+<div class=" w-full flex flex-col text-sm mt-24 pt-8 bg-gray-50">
   <!-- inni card jobs divisi report  -->
   {#each divisies as divisi}
     <button

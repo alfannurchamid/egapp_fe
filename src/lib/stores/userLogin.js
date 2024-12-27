@@ -42,7 +42,7 @@ export const updateUser = (
   target
 ) => {
   // @ts-ignore
-  console.log(target);
+  console.log("userLogin", target);
 
   user.update(() => {
     return target;

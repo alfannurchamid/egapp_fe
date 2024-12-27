@@ -13,6 +13,10 @@
   import { open_catatan, open_report } from "$lib/stores/openPopTugas";
   import { onMount } from "svelte";
   import { Falidate } from "$lib/dependedncies/falidate_session_login";
+  import { user } from "$lib/stores/userLogin";
+  import { divisi } from "$lib/stores/divisi";
+  import { rencanaKerja } from "$lib/stores/rencanaKerja";
+  import { breadcrumbs } from "$lib/stores/breadcrumb";
 
   let catatans = [];
 
@@ -62,6 +66,7 @@
     if (response.ok) {
       let tugas_ = await response.json();
       tugas = tugas_.data;
+      console.log("HASIL TUGAS FETCH", tugas);
     }
   };
 
@@ -69,6 +74,26 @@
     await Falidate();
     await get_catatan();
     await get_tugas();
+
+    const idKaryawan = $user.id_karyawan;
+    const idDivisi = tugas.id_divisi;
+    const idRenker = tugas.id_renker;
+
+    breadcrumbs.set([
+      { label: "Dashboard", href: "/A004/dashboard_direksi" },
+      {
+        label: `Divisi`,
+        href: `/${idKaryawan}/dashboard_divisi/${idDivisi}`,
+      },
+      {
+        label: `Rencana Kerja `,
+        href: `/${idKaryawan}/rencana_kerja/${idRenker}`,
+      },
+      {
+        label: `Tugas `,
+        href: `#`,
+      },
+    ]);
   });
 </script>
 
@@ -76,7 +101,7 @@
   class=" mt-20 rencanakerja_card p-1 px-5 my-2 w-full bg-white flex flex-col rounded-lg"
 >
   <div class=" w-full flex justify-between">
-    <h6 class=" text-sm mb-3">Tugas</h6>
+    <h6 class=" text-sm mb-3">Tugasi</h6>
     <div class="flex items-center">
       status :
       <div

@@ -23,6 +23,9 @@
   import { GetCookie } from "$lib/stores/cokies";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
+  import { breadcrumbs } from "$lib/stores/breadcrumb";
+  import { user } from "$lib/stores/userLogin";
+  import { divisi } from "$lib/stores/divisi";
 
   let accessKey = "";
   /**
@@ -86,10 +89,25 @@
     await get_renkers();
     await get_target();
     persen = "w-[" + target.progres.toString() + "%]";
+
+    const idKaryawan = $user.id_karyawan;
+    const idDivisi = target.id_divisi;
+
+    breadcrumbs.set([
+      { label: "Dashboard", href: `/${idKaryawan}/dashboard_direksi` },
+      {
+        label: `Divisi`,
+        href: `/${idKaryawan}/dashboard_divisi/${idDivisi}`,
+      },
+      {
+        label: `Target`,
+        href: `#`,
+      },
+    ]);
   });
 </script>
 
-<h2 class=" mt-20 w-full p-2 text-lg text-center">Target divisi markrting</h2>
+<h2 class=" mt-24 w-full p-2 text-lg text-center">Target divisi markrting</h2>
 <div class="flex text-gray-700 p-5 w-fullh-40 mt-3 bg-slate-50 flex-col mx-2.5">
   <h3>{target.judul}</h3>
   <div class="  h-full w-fuull flex">

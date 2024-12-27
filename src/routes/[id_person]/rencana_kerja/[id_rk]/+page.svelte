@@ -27,6 +27,9 @@
   import ReportRenKer from "$lib/compo/report_ren_ker.svelte";
   import { GetCookie } from "$lib/stores/cokies";
   import { user } from "$lib/stores/userLogin";
+  import { breadcrumbs } from "$lib/stores/breadcrumb";
+  import { divisi } from "$lib/stores/divisi";
+  import { updateRencanaKerja } from "$lib/stores/rencanaKerja";
 
   // data  dari server
 
@@ -82,6 +85,8 @@
     if (response.ok) {
       let renker_ = await response.json();
       renker = renker_.data;
+      updateRencanaKerja(renker_.data);
+      console.log("DATA RENKER", renker);
     }
   };
 
@@ -132,6 +137,10 @@
       karyawans = karyawans_.data.data;
     }
   };
+
+  console.log("LUAR MOUNT STORE USER =====", $user);
+  console.log("LUAR MOUNT STORE DIVISI =====", $divisi);
+
   onMount(async () => {
     await Falidate();
     await get_tugass();
@@ -145,13 +154,36 @@
       { nama: "nanang", id: "A003", atribute: "" },
       { nama: "sibon", id: "A006", atribute: "" },
     ]);
+
+    const idKaryawan = $user.id_karyawan;
+    const namaDivisi = $divisi.nama_divisi;
+    /*  const idDivisi = $divisi.id_divisi; */
+    const idDivisi = renker.id_divisi;
+
+    console.log("STORE DIVISI =====", $divisi);
+    console.log("STORE USER =====", $user);
+
+    breadcrumbs.set([
+      {
+        label: `Dashboard`,
+        href: `/${idKaryawan}/dashboard_direksi`,
+      },
+      {
+        label: `Divisi`,
+        href: `/${idKaryawan}/dashboard_divisi/${idDivisi}`,
+      },
+      {
+        label: `Rencana Kerja`,
+        href: "#",
+      },
+    ]);
   });
 
   const KPI = "omset 200 jt bulan september 2024";
 </script>
 
 <div
-  class=" mt-20 rencanakerja_card p-1 px-5 my-2 w-full bg-white flex flex-col rounded-lg"
+  class=" mt-24 rencanakerja_card p-1 px-5 my-2 w-full bg-white flex flex-col rounded-lg"
 >
   <h6 class=" text-sm mb-3">Rencana Kerja</h6>
   <div class=" flex w-full justify-between">

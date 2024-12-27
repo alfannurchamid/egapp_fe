@@ -15,6 +15,12 @@
   import { page } from "$app/stores";
   import EditRencanaKerja from "$lib/compo/edit_rencana_kerja.svelte";
 
+  import { breadcrumbs } from "$lib/stores/breadcrumb";
+
+  import { updateDivisi } from "$lib/stores/divisi";
+
+  import { user } from "$lib/stores/userLogin";
+
   let divisi_data = {};
   let refreshKey = "";
   let accessKey = "";
@@ -47,8 +53,9 @@
     if (response.ok) {
       let divisi_data_ = await response.json();
       divisi_data = divisi_data_.data;
+      await updateDivisi(divisi_data);
     }
-    console.log(divisi_data);
+    console.log("HASIL FETCH DIVISI ", divisi_data);
   };
 
   const get_data_targets = async () => {
@@ -125,14 +132,24 @@
 
   onMount(async () => {
     await Falidate();
-    get_data_divisi();
-    get_data_targets();
-    get_renkers();
-    get_karyawans();
+    await get_data_divisi();
+    await get_data_targets();
+    await get_renkers();
+    await get_karyawans();
+
+    const idKaryawan = $user.id_karyawan;
+
+    breadcrumbs.set([
+      { label: "Dashboard", href: `/${idKaryawan}/dashboard_direksi` },
+      {
+        label: `Divisi ${divisi_data.nama_divisi}`,
+        href: `/${idKaryawan}/dashboard_divisi/${divisi_data.id_divisi}`,
+      },
+    ]);
   });
 </script>
 
-<div class=" w-full flex flex-col text-sm mt-20 pt-2 px-2">
+<div class=" w-full flex flex-col text-sm mt-24 pt-2 px-2">
   <h1 class=" capitalize text-lg text-center my-2">
     Divisi {divisi_data.nama_divisi}
   </h1>
