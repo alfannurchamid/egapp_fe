@@ -230,7 +230,7 @@
                   {#if  opDdStaff}
                   <div transition:slide={{ delay: 250, duration: 300, easing: circInOut, axis: 'y' }}  
                       id="dropdownstaff" class=" duration-700  w-full flex-col text-gray-500  flex overflow-hidden ">
-                      {#each staff_sekarang as stafff }
+                      {#each karyawans as stafff }
                         <button on:click={updateStaffPilih(stafff.id_karyawan) } id='{stafff.id_karyawan}' class=" {stafff.id_karyawan} p-1 px-5 border-b  flex justify-between {stafff.atribute}  " >{stafff.nama} <Check kelas='w-5 h-5  ' kelas2='stroke-2 '></Check></button> 
                       {/each}
                   </div>

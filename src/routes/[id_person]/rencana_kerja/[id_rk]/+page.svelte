@@ -26,7 +26,7 @@
     let catatans = []
     let tugases = []
     let accessKey = ''
-    let renker = {}
+    let renker = false
     let karyawans = []
 
     const get_tugass = async ()=>{
@@ -72,6 +72,7 @@
         if(response.ok){
             let renker_ = await response.json()
             renker = renker_.data
+            
         }
     }
 
@@ -111,7 +112,7 @@
                   Authorization: "Bearer " + accessKey,
                 },
                     body : JSON.stringify({
-                    divisi : "9" 
+                    divisi : renker.id_divisi.toString()
                 }),
                 credentials: "include",
               }
@@ -119,8 +120,6 @@
             if(response.ok){
               let karyawans_ = await response.json()
               karyawans = karyawans_.data.data
-
-              
             }
  }
     onMount(async()=>{
@@ -130,7 +129,7 @@
       await get_catatan()
       await get_karyawans()
        // @ts-ignore
-       currentPelaksanaRow([{'nama':'alpen','id':'A004','atribute':''},{'nama':'devi','id':'A005','atribute':''},{'nama':'nanang','id':'A003','atribute':''},{'nama':'sibon','id':'A006','atribute':''}]) 
+      //  currentPelaksanaRow([{'nama':'alpen','id':'A004','atribute':''},{'nama':'devi','id':'A005','atribute':''},{'nama':'nanang','id':'A003','atribute':''},{'nama':'sibon','id':'A006','atribute':''}]) 
       })
 
 

@@ -230,14 +230,13 @@
          <input name="deadline" on:change={()=> is_lengkap = false} type="date" class=" h-8 rounded-lg px-2 mb-4" bind:value={deadline} >
   
          {#if renker}
-          <label for="pelaksana" class=" text-sm text-white mb-1">pelaksanan
+          <label for="pelaksana" class=" text-sm text-white mb-1">pelaksana
             </label>
                 
             <div class=" bg-white py-2 rounded-lg px-2 mb-4  cursor-pointer">
                 <button on:click={()=>{opDdStaff = !opDdStaff}} class=" w-full flex justify-between items-center px-2">
                     <label for="">{staf_terpilih_value}</label>
                     {#if opDdStaff}
-                        
                     <div  class="rotate-180">
                         <Dropdown kelas='w-8 h-8'></Dropdown>
                     </div>
